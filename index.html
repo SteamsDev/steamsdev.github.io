@@ -7,10 +7,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            font-size: small;
             margin: 0;
             padding: 0;
             background-color: #480303; /* Maroon background color */
-            color: #000000; /* White text color */
+            color: #000000; /* Black text color */
         }
 
         #container {
@@ -62,6 +63,19 @@
         .project:hover .subprojects {
             display: block;
         }
+
+        /* Mobile styles */
+        @media only screen and (max-width: 768px) {
+            #sidebar, #content {
+                float: none;
+                width: 100%;
+            }
+
+            .subprojects {
+                display: block;
+                padding-left: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -82,7 +96,7 @@
                     </ul>
                 </li>
                 <li class="project">
-                    <a href="#">The Iris War</a>
+                    <a href="./content/The Iris War/iriswar.html">The Iris War</a>
                     <ul class="subprojects">
                         <li><a href="#">Concept</a></li>
                         <li><a href="#">Factions</a></li>
