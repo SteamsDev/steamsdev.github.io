@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: smaller;
+    margin: 0;
+    padding: 0;
+    background-color: #480303; /* Maroon background color */
+    color: #000000; /* White text color */
+}
+
+#container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 5px solid #800000; /* Dark red border */
+    background-color: #FFFFFF; /* White content background color */
+    overflow: hidden; /* Clearfix for floats */
+}
+
+#header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#sidebar {
+    float: left;
+    width: 25%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#content {
+    float: right;
+    width: 75%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+/* Style links */
+a {
+    color: #800000;
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+.subprojects {
+    display: none;
+    padding-left: 20px;
+}
+
+    .subprojects li {
+        margin-top: 5px;
+    }
+
+.project:hover .subprojects {
+    display: block;
+}
+
+/* Responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 768px) {
+    #sidebar, #content {
+        float: none;
+        width: 100%;
+    }
+
+    .subprojects {
+        display: block;
+        padding-left: 10px;
+    }
+}
+
+/* Footer styles */
+footer {
+    clear: both;
+    text-align: center;
+    padding: 20px 0;
+}
+
+    footer a {
+        margin: 0 10px;
+        color: white;
+    }
