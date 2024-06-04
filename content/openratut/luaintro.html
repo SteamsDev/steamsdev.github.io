@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRA Lua Tutorial - Devon Fair's e-Portfolio</title>
+    <link rel="stylesheet" href="../../root/styles.css" />
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <h1>Devon Fair's e-Portfilio</h1>
+        </div>
+        <div id="sidebar">
+            <h3><a href="../../index.html">Home</a></h3>
+            <h3>Projects</h3>
+            <ul>
+                <li class="project">
+                    <a href="../iriswar/home.html">The Iris War</a>
+                    <ul class="subprojects">
+                        <li><a href="../iriswarconcept.html">Concept</a></li>
+                        <li><a href="../iriswarfactions.html">Factions</a></li>
+                        <li><a href="../iriswarchapters.html">Chapter List</a></li>
+                        <li><a href="https://www.openra.net/">About OpenRA</a></li>
+                    </ul>
+                </li>
+                <li class="project">
+                    <a href="../dayspringone/home.html">Dayspring: Dynasties</a>
+                    <ul class="subprojects">
+                        <li><a href="#">Concept</a></li>
+                        <li><a href="#">Character Profiles</a></li>
+                        <li><a href="#">Chapter List</a></li>
+                    </ul>
+                </li>
+                <li class="project">
+                    <a href="./home.html">OpenRA Lua Tutorial</a>
+                    <ul class="subprojects">
+                        <li><a href="./luaintro.html">Introduction to Lua</a></li>
+                        <li><a href="./ataglance.html">OpenRA's API At A Glance</a></li>
+                        <li><a herf="./luascript.html">Making an OpenRA Script</a></li>
+                        <li><a href="./advanced.html">Advanced Tips and Tricks</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div id="content">
+            <h2>Introduction to Lua</h2>
+            <p>This is a brief introduction to the standard structure and functionality of Lua. While it's not necessary to know everything about the language, having a basic understanding of the langauge goes a long way in mastering OpenRA's scripting behavior. It also serves as a starting point to using a code editor and writing your own code.</p>
+            <p>Chapters:</p>
+            <ul>
+                <li><a href="#gettingstarted">Getting Started with VSCode</a></li>
+                <li><a href="#luabasics">Lua Basics</a></li>
+                <li><a href="#functions">Functions</a></li>
+                <li><a href="#lists">Lists</a></li>
+            </ul>
+            <br />
+            <h3 id="gettingstarted">Getting Started with VSCode</h3>
+            <p>To get us off the ground, we'll want a suitable code editor for a job. Any type of editor will be suitable for this (even Notepad), but my personal recommendation is Microsoft's Visual Studio Code, primarily because there are extensions available that will make working wtih the Lua and OpenRA languages significantly easier. Thus, I'll show you how to get it set up.</p>
+            <p>First, you'll want to install VSCode from Microsoft's website. <a href="https://code.visualstudio.com/">Here's a direct link.</a></p>
+            <img src="images/vscodeweb.png" width="600" />
+            <p>If you're on Windows, you can use the installer directly to install and set up the application. If you're on Debian/Ubuntu, you can use the built-in package manager to install it.</p>
+            <p>Alternatively, other Linux users can find it using their terminal. For example:</p>
+            <p><code>sudo apt install code</code> on Debian/Ubuntu</p>
+            <p><code>sudo pacman -S code</code> for Arch Linux users</p>
+            <p>If you're not sure what version you need, check the VSCode Documentation and your distribution's documentation and forums.</p>
+            <br />
+            <p>Once your version of VSCode is installed, we're going to get the Lua extension.</p>
+            <img src="images/luaext.png" width="400" />
+            <p>First, go the Extensions section on the left-hand side (Arrow 1) and find the Lua extension by sunmeko (Arrow 2). Install it and reload your VSCode session if needed.</p>
+            <p>This is what the extension page should look like when the Lua extension is installed:</p>
+            <img src="images/luaext2.png" />
+            <p>Now we can get into some of the basic Lua functionality.</p>
+            <h3 id="luabasics">Lua Basics</h3>
+            <p>There really isn't much to cover here as most of what we do with Lua revolves around the OpenRA side of things, but we will touch on important things to know about the language. If you want an in-depth tutorial, you can check out the one from <a href="https://www.tutorialspoint.com/lua/index.htm">TutorialsPoint</a>.</p>
+            <h4>Variables</h4>
+            <p>Variables are quite simple to understand. What you're essentially doing is assigning a "value" to a named piece of content that you can then change or access later. The most common types of variables and how they work are:</p>
+            <p><b>Integer: </b>a whole number value (<code>value = 100</code>).</p>
+            <p><b>String: </b>a set of alphanumeric characters in a row (<code>word = "word"</code>).</p>
+            <p><b>Float: </b>short for "floating-point value" usually a decimal number value (<code>value = 1.01</code>).</p>
+            <p><b>Boolean: </b>literally "true" or "false;" mostly used as a condition (<code>ready = "true"</code>).</p>
+            <p><b>Function: </b>lets you do multiple things at once. More on them later (<code>thing = function() return end</code>).</p>
+            <p>You can also add variables together and change the variables' values anywhere in your program. This becomes more useful when we start writing OpenRA scripts.</p>
+            <p>By default, variables can be accessed anywhere throughout the program no matter what context the variable is used in. To have it be accessed only in the context where it's needed, you can put the word <code>local</code> in front of the variable, like this:</p>
+            <code>local value = 0</code>
+            <p>Unlike other computer languages, there isn't much more to add here, as Lua is simplified enough that ther are no conditional statements or standard libraries to worry about. That said, we're not done yet...</p>
+            <h4 id="functions">Functions</h4>
+            <p>Functions are going to be the backbone of what we're about to do, so we're going to go into detail on how they work. Most of what I'm about to mention here comes from the TutorialsPoint tutorial mentioned at the beginning, so if you want more info, you can check it out <a href="https://www.tutorialspoint.com/lua/lua_functions.htm">here</a>. That said, let's get into the basics.</p>
+            <p><b>Functions</b>, as mentioned before, allows you to do multiple things all at once within a certain context and output the results to another variable if needed, and they can even accept variables as "parameters" that can be used inside the function. For example:</p>
+            <code lang="lua">
+                mything = function(value1, value2)
+                <div style="padding-left:20px">print(value1)</div>
+                <div style="padding-left:20px">
+                    print(value2)
+                </div>
+                <div style="padding-left:20px">
+                    return value1 + value2
+                </div>
+                end
+            </code>
+            <p>What we're doing here is taking two integer values, displaying them, and then returning the sum of the two values added together. To use this function, you simply just have to do:</p>
+            <code>value3 = mything()</code>
+            <p>You can also reference other functions within said function, such as:</p>
+            <code lang="lua">
+                myadd = function(v1, v2)
+                <div style="padding-left: 20px">return v1 + v2</div>
+                end
+                <br />
+                mything = function()
+                <div style="padding-left: 20px">value1 = myadd(20, 40)</div>
+                <div style="padding-left: 20px">value2 = myadd(30, 50)</div>
+                <div style="padding-left: 20px">return value1 - value2</div>
+                end
+            </code>
+            <p>Functions also allow us to use "conditional statements," which are basically built-in functions that allow us to only make something happen when a condition is met. For example:</p>
+            <code>
+                mycondition = function(a)
+                <div style="padding-left: 20px">if a > 10 then</div>
+                <div style="padding-left: 40px">print(a)</div>
+                <div style="padding-left: 20px">end</div>
+                end
+            </code>
+            <p>These becomes useful when we get to OpenRA scripting, especially for recurring statements (i.e. statements which reference themselves). While basic in concept, we'll see more advanced techniques later on that will make them essential to our program.</p>
+            <h4 id="lists">Lists</h4>
+            <p>The final big topic I wanted to touch on is Lists, which are essentially for some of the things we do in OpenRA. <b>Lists</b> (or Arrays, as they're often called) contain more tham one value of a specific variable type, and we can specify which one we want to access by providing the name of a list followed by a number in brackets ([ ]).</p>
+            <p>A basic list looks like this:</p>
+            <code>mylist = {"wordone", "wordtwo", "wordthree"}</code>
+            <p>VSCode will usually tell you extrea information about a list, such as the position and the type of a certain value in the list, as shown here:</p>
+            <img src="images/listdemo.png" />
+            <p>By referencing these numbers, every item in the list can be accessed, like this:</p>
+            <code lang="lua">
+                printlist = function(list)
+                <div style="padding-left: 20px">print(list[1])</div>
+                <div style="padding-left: 20px">print(list[2])</div>
+                <div style="padding-left: 20px">print(list[3])</div>
+                end
+            </code>
+            <p>You can use just about any variable tpye inside of lists (even functions) and they can be of any length. This will become handy for understanding how OpenRA's API handles them, and we'll also be making use of them in our scripts frequently, so this is an important one to master.</p>
+            <br />
+            <p>That's all we're going to cover on Lua for now! We can now begin to look into OpenRA's API and its implementation!</p>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <a href="https://github.com/SteamsDev">Github</a>
+        <a href="https://www.linkedin.com/in/devon-fair-84442224a">LinkedIn</a>
+    </footer>
+</body>
+</html>
