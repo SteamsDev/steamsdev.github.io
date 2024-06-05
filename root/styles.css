@@ -76,6 +76,10 @@ img {
     }
 }
 
+code {
+    font-size: medium
+}
+
 /* Footer styles */
 footer {
     clear: both;

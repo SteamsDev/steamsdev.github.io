@@ -58,7 +58,88 @@
                 <li><a href="misc">Miscellaneous Information</a></li>
             </ul>
             <br />
-            <h3 id="vscodeext">To be written.</h3>
+            <h3 id="vscodeext">OpenRA Extensions for VSCode</h3>
+            <p>This is the part where we're going to get the OpenRa extensions for VSCode ready. If you're not using VSCode, you can skip this step.</p>
+            <p>First, we need to go back to the extensions page and install the OpenRA extensions. The process is similar to the one for the Lua extension:</p>
+            <img src="images/openraluavscode.png" />
+            <p>You can install both OpenRA Lua and OpenRA MiniYAML extensions, but we'll only need the Lua extension for this tutorial.</p>
+            <p>Next, we'll need to set up the extension inside our maps folder. The location of the maps folder varies based on your operating system and mod version. Here's a quick reference for your convenience:</p>
+            <ul>
+                <li>Windows: <code>C:\Users\(username)\AppData\Roaming\OpenRA\maps\(modname)\(version)\</code></li>
+                <li>Linux: <code>/home/(username)/.config/OpenRA/maps/(modname)/(version)/</code></li>
+                <li>Macintosh: /Users/(username)/Library/Application Support/OpenRA/maps/(modname)/(version)/</li>
+            </ul>
+            <p>(Note: You might have to disable your file manager's "Show Hidden Files" option to see the .config folder. See your file manager's documentation if you don't know what that means.)</p>
+            <p>Inside this folder, we need to create a folder called <code>.vscode</code>, which will be accessed by VSCode when we open the folder within the app. This is a simple step.</p>
+            <p>After that, we need to go into that folder and create two files, one called <code>extensions.json</code> and one called <code>settings.json</code>m whoch we'll need to make VSCode work properly. While not <i>strictly</i> necessary, it will make our lives a lot easier when working with the API.</p>
+            <p>Now we need to add some stuff to both of these files, starting with the <code>extensions</code> file. This one is easy: We just need to add the extension(s) we just installed as recommendations to the app. The code below should be all you need:</p>
+            <code>
+                {<br />
+                <code style="padding-left: 20px">"recommendations": [</code><br />
+                <code style="padding-left: 40px">"openra.vscode-openra-lua",</code><br />
+                <code style="padding-left: 40px">"sumneko.lua"</code><br />
+                <code style="padding-left: 20px">]</code><br />
+                }
+            </code>
+            <p>The <code>settings</code> file is where things start to get tricky. This is where we actually make VSCode use the installed extensions as they're intended to be. This one takes a lot of trial and error, but this is how I did it the first time:</p>
+            <ul>
+                <li>First, we need to go to our extensions folder and find the OpenRA Lua extension itself. You hsould be able to find it under your Home folder -> .vscode -> extensions -> openra.vscode-openra-lua or something similar. Inside of here is an API file that we need to add to the settings file so it can find it.</li>
+                <li>Second, we need to find some files related tp map creation. This one should be under the same location where the OpenRA config folder is stored (you know, the <code>.config/OpenRA</code> folder from earlier). Find one the says Code on it, then navigate through it to <code>User -> worlspaceStorage -> 66196cd926e2a0e498df8316cbcb0939 (or some other number) -> openra.vscode-openra-lua -> map</code>. If it's not there, you should be able to skip this step.</li>
+                <li>Now we can bring it all together. Copy the two directories we just found and put them into the <code>settings.json</code> file in a similar manner to the last file, but with <code>Lua.workspace.library</code> replacing the <code>recommendations</code> part from before.</li>
+            </ul>
+            <p>With any luck, you should have this in your settings file:</p>
+            <code>
+                {<br />
+                <code style="padding-left: 20px">"Lua.workspace.library": [</code><br />
+                <code style="padding-left: 40px">"(Directory of the extension api)"</code><br />
+                <code style="padding-left: 40px">"(Directory of the extension map)"</code><br />
+                <code style="padding-left: 20px">]</code><br />
+                }
+            </code>
+            <p>It might require a bit of tinkering, but after a while you should be able to autocomplete statements from VSCode and not have it yell at you all the time for not knowing what anything is. Again, this ins't strictly necessary, but it'll make our lives way easier.</p>
+            <p>With that done, we can finally move on to the API itself.</p>
+            <h3 id="wlandtick">WorldLoaded and Tick</h3>
+            <p>Let's start with the backbone of any OpenRA script: the <code>WorldLoaded</code> and <code>Tick</code> functions! These are what initializes the script and allows it to be read by the game when loading a new map. Their basic functionalities are:</p>
+            <ul>
+                <li>WorldLoaded: Runs this code as soon as the player enters into the game.It can call other functions to be initialized alongside it.</li>
+                <li>Tick: Runs some code every <i>tick</i> (or frame) of game time. It can sometimes cause a map ot bog down or outright crash, so use caution when adding stuff to this.</li>
+            </ul>
+            <p>As such, you will want to add this to your Lua script as soon as you create it:</p>
+            <code lang="lua">
+                WorldLoaded = function()<br />
+                {<br />
+                    <br />
+                }<br />
+                <br />
+                Tick = function()<br />
+                {<br />
+                    <br />
+                }
+            </code>
+            <p>If you've ever gotten to use the "New OpenRA Mission Script" thing that might pop up with the OpenRA API (it doesn't anymore, which is sad), it would automatically add those functions for you. For now, we'll just add them on our own like normal heathens.</p>
+            <h3 id="players">Players and Player Properties</h3>
+            <p>Another essential to any OpenRA Script is making sure you can see and modify the players as your map calls for it. This is where the <code>Players</code> functionality comes into play. When you use it to get a player based on name, it generates a new Player class of that name that you can then modify and reference as you please.</p>
+            <p>To get a player, all you need is the name of that player and then use this code:</p>
+            <code>PlayerName = Player.GetPlayer("PlayerName")</code>
+            <p>You can then hover over it in VSCode and see various things about that player, with many different properties to tinker with to our heart's content:</p>
+            <img src="images/openraplayer.png" />
+            <p>Here are just a few that you'll want to know:</p>
+            <ul>
+                <li><b>AddPrimaryObjective:</b> Adds a primary objective to the player; used primarily on the human player.<br /> <code>Obj1 = PlayerName.AddPrimaryObjective("Destroy all enemy forces.")</code></li>
+                <li><b>AddSecondaryObjective:</b> Adds a secondary objective to the player, similar to the above.<br /> <code>Obj2 = PlayerName.AddSecondaryObjective("Capture the hospital.")</code></li>
+                <li><b>Cash:</b> How many credits the player has on hand. Can be changed at any time during the mission.<br /> <code>PlayerName.Cash = 8000</code></li>
+                <li><b>GetActors:</b> Gets all of the actors (i.e. vehicles and buildings) whose owner is the specified player.<br /> <code>PlayerActors = PlayerName.GetActors()</code>
+                    <ul>
+                        <li><b>GetActorsByType:</b> Gets all actors on map whose type matches the type specified (more on that later).<br /> <code>PlayerActors = PlayerName.GetActorsByType("e1")</code></li>
+                        <li><b>GetActorsByTypes:</b> Gets all actors on map whose type matches any one of the types specified (again, more on that in a bit).<br /> <code>PlayerActors = PlayerName.GetActorsByTypes({"e1", "e2"})</code></li>
+                    </ul>
+                </li>
+                <li><b>HasNoRequiredUnits:</b> A condition that's true if all <i>combat</i> units (i.e. tanks) and non-tech buildings are killed. Will always be false if there's at least one unit that meets the conditions still on the map.<br /> <code>if PlayerName.HadNoRequriedUnits() then [...] end</code></li>
+                <li><b>IsBot:</b> Whether or not the player is a bot (duh).<br /> <code>if PlayerName.IsBot then [...] end</code></li>
+                <li><b>MarkCompletedObjective: </b> Marks a stated objective as completed. Once all non-resolved primary objectives are marked as completed, the game ends in a success.<br /> <code>PlayerName.MarkCompletedObjective(Obj1)</code></li>
+                <li><b>MarkFailedObjective: </b> Marks a stated objective as failed. If at least one primary objective is marked as failed, the game ends in a failure.<br /> <code>PlayerName.MarkFailedObjective(Obj2)</code></li>
+            </ul>
+            <p>On the <a herf="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Doc</a>, it specific either a <b>get</b> or a <b>set</b> value for a given function/property as well as what's required for the function to work. The only real difference is that <b>get</b> means you can see the value of that function/variable and <b>set</b> means you can modify it. Pretty simple.</p>
         </div>
     </div>
     <!-- Footer -->
