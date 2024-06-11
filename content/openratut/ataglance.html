@@ -52,7 +52,7 @@
                 <li><a href="#wlandtick">WorldLoaded and Tick</a></li>
                 <li><a href="#players">Players and Player Properties</a></li>
                 <li><a href="#actors">Actors and Actor Properties</a></li>
-                <li><a href="#reinforcements">Reinforcements</a></li>
+                <li><a href="#triggers">Triggers</a></li>
                 <li><a href="#mapcontrols">Sound Controls and Text Displays</a></li>
                 <li><a href="#production">Production Controls and Queues</a></li>
                 <li><a href="misc">Miscellaneous Information</a></li>
@@ -71,7 +71,7 @@
             </ul>
             <p>(Note: You might have to disable your file manager's "Show Hidden Files" option to see the .config folder. See your file manager's documentation if you don't know what that means.)</p>
             <p>Inside this folder, we need to create a folder called <code>.vscode</code>, which will be accessed by VSCode when we open the folder within the app. This is a simple step.</p>
-            <p>After that, we need to go into that folder and create two files, one called <code>extensions.json</code> and one called <code>settings.json</code>m whoch we'll need to make VSCode work properly. While not <i>strictly</i> necessary, it will make our lives a lot easier when working with the API.</p>
+            <p>After that, we need to go into that folder and create two files, one called <code>extensions.json</code> and one called <code>settings.json</code> which we'll need to make VSCode work properly. While not <i>strictly</i> necessary, it will make our lives a lot easier when working with the API.</p>
             <p>Now we need to add some stuff to both of these files, starting with the <code>extensions</code> file. This one is easy: We just need to add the extension(s) we just installed as recommendations to the app. The code below should be all you need:</p>
             <code>
                 {<br />
@@ -116,7 +116,7 @@
                     <br />
                 }
             </code>
-            <p>If you've ever gotten to use the "New OpenRA Mission Script" thing that might pop up with the OpenRA API (it doesn't anymore, which is sad), it would automatically add those functions for you. For now, we'll just add them on our own like normal heathens.</p>
+            <p>If you've ever gotten to use the "New OpenRA Mission Script" thing that popped up with the OpenRA API (it doesn't anymore, which is sad), it would automatically add those functions for you. For now, we'll just add them on our own like normal heathens.</p>
             <h3 id="players">Players and Player Properties</h3>
             <p>Another essential to any OpenRA Script is making sure you can see and modify the players as your map calls for it. This is where the <code>Players</code> functionality comes into play. When you use it to get a player based on name, it generates a new Player class of that name that you can then modify and reference as you please.</p>
             <p>To get a player, all you need is the name of that player and then use this code:</p>
@@ -139,7 +139,54 @@
                 <li><b>MarkCompletedObjective: </b> Marks a stated objective as completed. Once all non-resolved primary objectives are marked as completed, the game ends in a success.<br /> <code>PlayerName.MarkCompletedObjective(Obj1)</code></li>
                 <li><b>MarkFailedObjective: </b> Marks a stated objective as failed. If at least one primary objective is marked as failed, the game ends in a failure.<br /> <code>PlayerName.MarkFailedObjective(Obj2)</code></li>
             </ul>
-            <p>On the <a herf="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Doc</a>, it specific either a <b>get</b> or a <b>set</b> value for a given function/property as well as what's required for the function to work. The only real difference is that <b>get</b> means you can see the value of that function/variable and <b>set</b> means you can modify it. Pretty simple.</p>
+            <p>On the <a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Doc</a>, it specific either a <b>get</b> or a <b>set</b> value for a given function/property as well as what's required for the function to work. The only real difference is that <b>get</b> means you can see the value of that function/variable and <b>set</b> means you can modify it. Pretty simple.</p>
+            <h3 id="actors">Actors and Actor Properties</h3>
+            <p>Now it's time to get into the <i>real</i> nitty-gritty of any OpenRA Lua scrpit: actors. Actors are any infantry, vehicle, ship, building, scripting item, or anything else that can be placed on a map and interacted with. You can both create and access actors present on the map within the script, and can even access actors present in the <code>map.yaml</code> file.</p>
+            <p>You can see all of the actors for a given mod by opening up the mod, going into the map editor and opening the "Actors" tab:</p>
+            <img src="images/actorsmap.png" />
+            <p>Every actor in a given mod has a name and an identifier. You can see what these are by hovering over the actor in the editor:</p>
+            <img src="images/actorsmapdesc.png" />
+            <p>We'll use these identifiers a lot as we get into making our own actors, as this is what the game uses to spawn new actors in the script.</p>
+            <p>To make a new actor by itself, we can use the <code>Actor.Create()</code> function. It's only real functionality is to create a new actor of a specified type and with a set of initial properties. For example:</p>
+            <code style="padding-left: 20px">myTank = Actor.Create("1tnk", true, {Owner = Allies, Location = myLocation.Location}</code>
+            <p>In this case, we are taking a new tank of type <code>1tnk</code>, adding it to the world (<code>addToWorld = true</code>) and specifying in a Lua table that its owner is the player (Allies) and that it's starting at a preexisting location (<code>MyLocation.Location</code>).</p>
+            <p>To spawn them as a reinforcement for a given player, we can use the <code>Reinforcements</code> function set, which has a few useful functions for spawning new scripted actors. We'll focus first on the <code>Reinforce</code> function, which takes a list of actor types and spawns those actors with a desired path of entrance. An example of this is:</p>
+            <code style="padding-left: 20px">mySquad = Reinforcements.Reinforce(Allies, {"e1", "e1", "e1", "1tnk"}, {ActorSpawn.Location, ActorDest.Location})</code>
+            <p>In this case, we're having a new reinforcement spawn containing three solders (e1) and a tank (1tnk) belinging to the Allies, with the spawn bring a predefined actor and its destination being another actor. The reinforcement will spawn on the spawn actor and go to the destination actor right after. Note that both of these are invisible actors meant for this very purpose, and also there can be other actors in between the spawn and the destination (what thre API calls the <code>entryPath</code>.</p>
+            <p>Speaking of, there are actors meant specifically for use in scripted maps. In the above, both of these actors are waypoints, which have the type <code>waypoint</code> and can only be seen in the map editor and, obviously, in out script. There are also cameras that can be used in our script that will allow the owner player to see around it, like this:</p>
+            <img src="images/camerademo.png" />
+            <p>In this demo, the camera, which belings to the human player, shows a certain area to them (i.e. the battle that is shown). There are also waypoints shown that will spawn reinforcements belingong to the yellow player (an AI player) later on.</p>
+            <p>Every actor also has a specific <i>location</i> the essentially defines where they are. This is a good time to bring up <b>CPos</b> and <b>WPos</b>, which help define the positioning of actors and other things around the map. This is essnetially the difference between the two:</p>
+            <ul>
+                <li><b>CPos:</b> Short for "CellPosition," it defines the location of an actor or object based on <b>cell positioning</b>, which is defined by an X and Y coordinate. This is the positioning unit most used for actors.</li>
+                <li><b>WPos:</b> Short for "WorldPosition," it defines the location of an object based on <b>world positioning</b>, which is defined by an X, Y, and Z coordinate. This is less widely used and is usually used for the player camera.</li>
+            </ul>
+            <p>If you want to define your own position for an actor, both CPos and WPos come with a function called <code>New</code>, which as the name suggests lets you define a new Cpos or WPos coordinate and save it as a variable. For example:</p>
+            <ul>
+                <li><code>actorPosition = CPos.New(32, 32)</code></li>
+                <li><code>cameraPosition = WPos.New(56, 64, 0)</code></li>
+            </ul>
+            <p>You can also use the map editor to determine positioning. Hover over something in the editor and look to the top of the screen. You'll see the coordinates of the cell you're hovering over next to the Overlays tab:</p>
+            <img src="images/coordinates.png" />
+            <p>By using this to define our CPos and WPos coordinates, we can save ourselves some actors for other purposes. Just make sure you don't confuse it with an actor when you're not paying attention...</p>
+            <p>There are a lot more to actors than just these, however. Here's juts some of the functions/properties that you'll want to know when playing with them:</p>
+            <ul>
+                <li><b>Attack:</b> Tells the actor to attack another actor. Requires that the actor being attacked is not cloaked, submerged, or otherwise invisible. <br /><code>soldier.Attack(enemyFact)</code><br /><code>soldier.Attack(friendlyFact, true, true)</code></li>
+                <li><b>AttackMove:</b> Tells the actor to move to a location, attacking anything that comes within its field of vision.<br /><code>tank.AttackMove(spawnPoint.Location)</code></li>
+                <li><b>Capture:</b> Tells the actor to capture a building. Requires that the actor can capture buildings (i.e. an engineer) and that the building can be captured.<br /><code>engie.Capture(enemyFact)</code></li>
+                <li><b>Deploy:</b> Tells the actor to deploy immediately (given that it can be deployed, i.e. an MCV).<br /><code>mcv.Deploy()</code></li>
+                <li><b>Destroy:</b> Removes the actor from the world without counting it as a death.<br /><code>myActor.Destroy()</code></li>
+                <li><b>CenterPosition:</b> The actor's location as a WPos.<br /><code>Camera.Position = myCamera.CenterPosition</code></li>
+                <li><b>Health:</b> The actor's current health.<br /><code>actorHealth = myTank.Health</code></li>
+                <li><b>IsDead:</b> Is this actor dead (i.e. blown up by another player)?<br /><code>if myTank.IsDead then [...] end</code></li>
+                <li><b>Kill:</b> Removes the actor from the world, counting it as a death.<br /></li>
+                <li><b>Location:</b> The actor's location as a CPos.<br /><code>tankLocation = myTank.Location</code></li>
+                <li><b>Owner:</b> The player that owns this actor (so long as the player is defined in WorldLoaded).<br /><code>myTank.Owner = humanPlayer</code></li>
+                <li><b>Move:</b> Move the actor to a specific location.<br /><code>myActor.Move(CPos.New(45, 54))</code></li>
+                <li><b>Type:</b> The actor's type (or ID for our purposes).<br /><code>actorType = myActor.Type</code></li>
+                <li><b>UnloadPassengers:</b> Tells a transport to unload its passengers. Of course, this requires that the actor in question is a transport.<br /><code>myTransport.UnloadPassengers()</code></li>
+            </ul>
+            <p>This is only scratching the surface when it comes to using actors. There is a lot more to them that can only really be learned by reading the OpenRA doc and learning through experience. The map editor can help in some ways with figuring out what you want your actor to do. That said, there are ways to make using actors a lot better, and we're going to talk about one of those ways.</p>
         </div>
     </div>
     <!-- Footer -->
