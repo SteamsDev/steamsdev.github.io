@@ -84,7 +84,7 @@
             <p>The <code>settings</code> file is where things start to get tricky. This is where we actually make VSCode use the installed extensions as they're intended to be. This one takes a lot of trial and error, but this is how I did it the first time:</p>
             <ul>
                 <li>First, we need to go to our extensions folder and find the OpenRA Lua extension itself. You hsould be able to find it under your Home folder -> .vscode -> extensions -> openra.vscode-openra-lua or something similar. Inside of here is an API file that we need to add to the settings file so it can find it.</li>
-                <li>Second, we need to find some files related tp map creation. This one should be under the same location where the OpenRA config folder is stored (you know, the <code>.config/OpenRA</code> folder from earlier). Find one the says Code on it, then navigate through it to <code>User -> worlspaceStorage -> 66196cd926e2a0e498df8316cbcb0939 (or some other number) -> openra.vscode-openra-lua -> map</code>. If it's not there, you should be able to skip this step.</li>
+                <li>Second, we need to find some files related to map creation. This one should be under the same location where the OpenRA config folder is stored (you know, the <code>.config/OpenRA</code> folder from earlier). Find one the says Code on it, then navigate through it to <code>User -> worlspaceStorage -> 66196cd926e2a0e498df8316cbcb0939 (or some other number) -> openra.vscode-openra-lua -> map</code>. If it's not there, you should be able to skip this step.</li>
                 <li>Now we can bring it all together. Copy the two directories we just found and put them into the <code>settings.json</code> file in a similar manner to the last file, but with <code>Lua.workspace.library</code> replacing the <code>recommendations</code> part from before.</li>
             </ul>
             <p>With any luck, you should have this in your settings file:</p>
@@ -179,7 +179,7 @@
                 <li><b>CenterPosition:</b> The actor's location as a WPos.<br /><code>Camera.Position = myCamera.CenterPosition</code></li>
                 <li><b>Health:</b> The actor's current health.<br /><code>actorHealth = myTank.Health</code></li>
                 <li><b>IsDead:</b> Is this actor dead (i.e. blown up by another player)?<br /><code>if myTank.IsDead then [...] end</code></li>
-                <li><b>Kill:</b> Removes the actor from the world, counting it as a death.<br /></li>
+                <li><b>Kill:</b> Removes the actor from the world, counting it as a death.<br /><code>myActor.Kill()</code></li>
                 <li><b>Location:</b> The actor's location as a CPos.<br /><code>tankLocation = myTank.Location</code></li>
                 <li><b>Owner:</b> The player that owns this actor (so long as the player is defined in WorldLoaded).<br /><code>myTank.Owner = humanPlayer</code></li>
                 <li><b>Move:</b> Move the actor to a specific location.<br /><code>myActor.Move(CPos.New(45, 54))</code></li>
