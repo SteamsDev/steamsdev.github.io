@@ -45,7 +45,7 @@
         </div>
         <div id="content">
             <h2>OpenRA's API At a Glance</h2>
-            <p>Now that we have a basic understanding of Lua, we can not dig into the OpenRA API for Lua. Much of the content in this page is derived from the <a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Documentation</a> and the <a href="https://docs.openra.net/en/release/traits/">OpenRA Traits Documentation</a>, but should hopefully be easier to understand than that since we're going to approach this from a beginner's standpoint. With that, let's get started!</p>
+            <p>Now that we have a basic understanding of Lua, we can now dig into the OpenRA API for Lua. Much of the content in this page is derived from the <a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Documentation</a> and the <a href="https://docs.openra.net/en/release/traits/">OpenRA Traits Documentation</a>, but should hopefully be easier to understand than that since we're going to approach this from a beginner's standpoint. With that, let's get started!</p>
             <p>Chapters:</p>
             <ul>
                 <li><a href="#vscodeext">OpenRA Extensions for VSCode</a></li>
@@ -139,7 +139,7 @@
                 <li><b>MarkCompletedObjective: </b> Marks a stated objective as completed. Once all non-resolved primary objectives are marked as completed, the game ends in a success.<br /> <code>PlayerName.MarkCompletedObjective(Obj1)</code></li>
                 <li><b>MarkFailedObjective: </b> Marks a stated objective as failed. If at least one primary objective is marked as failed, the game ends in a failure.<br /> <code>PlayerName.MarkFailedObjective(Obj2)</code></li>
             </ul>
-            <p>On the <a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Doc</a>, it specific either a <b>get</b> or a <b>set</b> value for a given function/property as well as what's required for the function to work. The only real difference is that <b>get</b> means you can see the value of that function/variable and <b>set</b> means you can modify it. Pretty simple.</p>
+            <p>On the <a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Doc</a>, it specifies either a <b>get</b> or a <b>set</b> value for a given function/property as well as what's required for the function to work. The only real difference is that <b>get</b> means you can see the value of that function/variable and <b>set</b> means you can modify it. Pretty simple.</p>
             <h3 id="actors">Actors and Actor Properties</h3>
             <p>Now it's time to get into the <i>real</i> nitty-gritty of any OpenRA Lua scrpit: actors. Actors are any infantry, vehicle, ship, building, scripting item, or anything else that can be placed on a map and interacted with. You can both create and access actors present on the map within the script, and can even access actors present in the <code>map.yaml</code> file.</p>
             <p>You can see all of the actors for a given mod by opening up the mod, going into the map editor and opening the "Actors" tab:</p>
