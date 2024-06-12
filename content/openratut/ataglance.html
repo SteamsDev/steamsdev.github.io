@@ -108,12 +108,12 @@
             <code lang="lua">
                 WorldLoaded = function()<br />
                 {<br />
-                    <br />
+                <br />
                 }<br />
                 <br />
                 Tick = function()<br />
                 {<br />
-                    <br />
+                <br />
                 }
             </code>
             <p>If you've ever gotten to use the "New OpenRA Mission Script" thing that popped up with the OpenRA API (it doesn't anymore, which is sad), it would automatically add those functions for you. For now, we'll just add them on our own like normal heathens.</p>
@@ -128,7 +128,8 @@
                 <li><b>AddPrimaryObjective:</b> Adds a primary objective to the player; used primarily on the human player.<br /> <code>Obj1 = PlayerName.AddPrimaryObjective("Destroy all enemy forces.")</code></li>
                 <li><b>AddSecondaryObjective:</b> Adds a secondary objective to the player, similar to the above.<br /> <code>Obj2 = PlayerName.AddSecondaryObjective("Capture the hospital.")</code></li>
                 <li><b>Cash:</b> How many credits the player has on hand. Can be changed at any time during the mission.<br /> <code>PlayerName.Cash = 8000</code></li>
-                <li><b>GetActors:</b> Gets all of the actors (i.e. vehicles and buildings) whose owner is the specified player.<br /> <code>PlayerActors = PlayerName.GetActors()</code>
+                <li>
+                    <b>GetActors:</b> Gets all of the actors (i.e. vehicles and buildings) whose owner is the specified player.<br /> <code>PlayerActors = PlayerName.GetActors()</code>
                     <ul>
                         <li><b>GetActorsByType:</b> Gets all actors on map whose type matches the type specified (more on that later).<br /> <code>PlayerActors = PlayerName.GetActorsByType("e1")</code></li>
                         <li><b>GetActorsByTypes:</b> Gets all actors on map whose type matches any one of the types specified (again, more on that in a bit).<br /> <code>PlayerActors = PlayerName.GetActorsByTypes({"e1", "e2"})</code></li>
@@ -187,8 +188,49 @@
                 <li><b>UnloadPassengers:</b> Tells a transport to unload its passengers. Of course, this requires that the actor in question is a transport.<br /><code>myTransport.UnloadPassengers()</code></li>
             </ul>
             <p>This is only scratching the surface when it comes to using actors. There is a lot more to them that can only really be learned by reading the OpenRA doc and learning through experience. The map editor can help in some ways with figuring out what you want your actor to do. That said, there are ways to make using actors a lot better, and we're going to talk about one of those ways.</p>
+            <h4 id="triggers">Triggers</h4>
+            <p>We're not going to look at another integral part of scripts: triggers! Triggers are events that occur when a condition is met, such as when an actor is removed from the world or when a certain area of the map is entered. This is used regualrly in OpenRA maps due to some events requiring them, and they are pretty essential to the operations of a singleplayer campaign map.</p>
+            <p>Using triggers is pretty simple. You need to use the word <code>Trigger</code> then follow it up woth the name of the trigger you want to use, then in parentheses any actors or players that are involved as well as the function that runs when the trigger is set off. An example of a peoperly-formatted trigger is:</p>
+            <code>Trigger.OnKilled(myFactory, function (_, killer)</code>
+            <code style="padding-left: 20px">killer.Move(mainBase.Location)</code>
+            <code>end</code>
+            <p>(Note: the _ in the first spot means to ignore that parameter. The function has two parameters but we're only using the one.)</p>
+            <p>According to the OpenRA Doc, the function that runs is called the <b>callback function</b>, and it's called with a specific set of parameters that relate to the trigger (for example, which actors were involved). Whatever we want to do after the triggers fires goes in it.</p>
+            <p>Some triggers, such as proximity triggers, return an integer that acts as a trigger ID. We then use a separate remove function to remove the trigger when it's no longer needed. For example:</p>
+            <code>Trigger.OnEnteredProximityTrigger(chronosphere.CenterPosition, WDist.New(3 * 1024), function (a, id)</code>
+            <code style="padding-left: 20px">Trigger.RemoveProximityTrigger(id)</code>
+            <code style="padding-left: 20px">--// other bits of code //--</code>
+            <code>end</code>
+            <p>I would highly encourage you to read through the OpenRA Lua Doc to get a better understanding of the triggers and how they work, and as always, experience is everything, so try out a few and see what they do. Here's a few that I've used regularly and that are frequent in campaign maps:</p>
+            <ul>
+                <li><b>AfterDelay:</b> Fires after a specifc delay in time (measured in ticks). This function makes use of <code>DateTime</code>, an OpenRA library that keeps track of time and has several functions related to time and dates.<br /><code>Trigger.AfterDelay(DateTime.Seconds(30), function() [...] end)</code></li>
+                <li><b>OnAllKilled:</b> Fires when the specified list of actors are killed in some way (except for being manually removed by <code>Destroy</code>.<br /><code>Trigger.OnAllKilled(playerActors, function () [...] end)</code></li>
+                <li><b>OnAnyKilled:</b> Similar to the above, except that it fires when any of the actors is killed.<br /><code>Trigger.OnAnyKilled(playerActors, function () [...] end)</code></li>
+                <li><b>OnCapture:</b> Fires when the specified actor is captured.<br /><code>Trigger.OnCapture(myFactory, function (self, captor, oldOwner, newOwner) [...] end)</code></li>
+                <li><b>OnEnteredFootprint:</b> Fires when an actor has entered a "footprint," a list of cell positions that surround an actor.<br /><code>Trigger.OnEnteredFootprint(myWaypoint.ExpandFootPrint(), function (a, id) [...] end)</code></li>
+                <li><b>OnExitedProximityTrigger:</b> Fires when an actor comes within a specific range of another actor. The measurement of how close the actor is is called <code>WDist</code>, which is similar in concept to <code>WPos</code>.<br /><code>Trigger.OnEnteredProximityTrigger(myActor, WDist.New(7 * 1024), function (a, id) [...] end)</code></li>
+                <li><b>OnIdle:</b> Literally my favorite trigger XD; Checks if the actor is idle, and if so, fires.<br /><code>Trigger.OnIdle(myActor, function (self) [...] end)</code></li>
+                <li><b>OnKilled:</b> Fires when this actor has been killed (other than being removed from the world manually).<br /><code>Trigger.OnKilled(myActor, function (self, killed) [...] end)</code></li>
+                <li><b>OnKilledOrCaptured:</b> Similar to the above, but also cam fire if the actor is captured instead. I don't know if this works anymore but it's worth trying out.<br /><code>Trigger.OnKilledOrCaptured(myActor, function() [...] end)</code></li>
+                <li><b>OnRemovedFromWorld:</b> Fires when this actor is removed from the world in any capacity (including being manually removed by <code>Destroy</code>).<br /><code>Trigger.OnRemovedFromWorld(myActor, function (self) [...] end)</code></li>
+                <li><b>OnTimerExpired:</b> Fires when the map's timer has expired. Requires that the timer is set beforehand.<br /><code>Trigger.OnTimerExpired(function () [...] end)</code></li>
+            </ul>
+            <p>There are a lot more than this, but they are rarely used as far as I can tell. Best to try them out yourself if you want to figure out how they work. Triggers take some getting used to but are essential for creating great maps.</p>
+            <h3 id="gamecontrols">Sound Controls and Text Displays</h3>
+            <p>Now we move on to some less important things. I'll keep things brief here since we're already deep into the tutorial and most of the essentials were already covered. We'll start with sound and display controls, which are mostly done with the <b>Media</b> library. It basically allows you to play sounds and display text in certain areas that OpenRA and the mod you're using allows.</p>
+            <p>Similar to triggers, you use the Media by adding it, then choosing which function you want to run, then any parameters it takes. Here's an example:</p>
+            <code>Media.PlaySound("mysound")</code>
+            <p>Most of these take strings as its input to find the file it's looking for (in the case of sound anyway), so it's best to know beforehand what the IDs of the sound files you're looking for are. You can find these in your mod's main directory under <code>mods -> [modname] -> audio</code>.</p>
+            <p>Let's go over the few basic functions you might want to use:</p>
+            <ul>
+                <li><b>DisplayMessage:</b> Displays a text message in the bottom text box. You can define its color and prefix if you want (default prefix is <code>Mission</code>.<br /><code>Media.DisplayMessage("lotsa stuff to put here!", "Message", HSLColor.Red)</code></li>
+                <li><b>PlayMusic:</b> Plays a music file, so long as it's defined in your mod's music file.<br /><code>Media.PlayMusic("radio2")</code></li>
+                <li><b>PlaySound:</b> Plays a sound file. Again, make sure you can find it first.<br /><code>Media.PlaySound("explosion2")</code></li>
+                <li><b>PlaySpeechNotification:</b> Plays a speech file.<br />Media.PlaySpeechNotification("LowPower")</li>
+            </ul>
         </div>
     </div>
+
     <!-- Footer -->
     <footer>
         <a href="https://github.com/SteamsDev">Github</a>
