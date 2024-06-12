@@ -197,9 +197,9 @@
             <p>(Note: the _ in the first spot means to ignore that parameter. The function has two parameters but we're only using the one.)</p>
             <p>According to the OpenRA Doc, the function that runs is called the <b>callback function</b>, and it's called with a specific set of parameters that relate to the trigger (for example, which actors were involved). Whatever we want to do after the triggers fires goes in it.</p>
             <p>Some triggers, such as proximity triggers, return an integer that acts as a trigger ID. We then use a separate remove function to remove the trigger when it's no longer needed. For example:</p>
-            <code>Trigger.OnEnteredProximityTrigger(chronosphere.CenterPosition, WDist.New(3 * 1024), function (a, id)</code>
-            <code style="padding-left: 20px">Trigger.RemoveProximityTrigger(id)</code>
-            <code style="padding-left: 20px">--// other bits of code //--</code>
+            <code>Trigger.OnEnteredProximityTrigger(chronosphere.CenterPosition, WDist.New(3 * 1024), function (a, id)</code><br />
+            <code style="padding-left: 20px">Trigger.RemoveProximityTrigger(id)</code><br />
+            <code style="padding-left: 20px">--// other bits of code //--</code><br />
             <code>end</code>
             <p>I would highly encourage you to read through the OpenRA Lua Doc to get a better understanding of the triggers and how they work, and as always, experience is everything, so try out a few and see what they do. Here's a few that I've used regularly and that are frequent in campaign maps:</p>
             <ul>
