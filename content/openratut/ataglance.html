@@ -191,8 +191,8 @@
             <h3 id="triggers">Triggers</h3>
             <p>We're now going to look at another integral part of scripts: triggers! <b>Triggers</b> are events that occur when a condition is met, such as when an actor is removed from the world or when a certain area of the map is entered. This is used regualrly in OpenRA maps due to some events requiring them, and they are pretty essential to the operations of a singleplayer campaign map.</p>
             <p>Using triggers is pretty simple. You need to use the word <code>Trigger</code> then follow it up woth the name of the trigger you want to use, then in parentheses any actors or players that are involved as well as the function that runs when the trigger is set off. An example of a peoperly-formatted trigger is:</p>
-            <code>Trigger.OnKilled(myFactory, function (_, killer)</code>
-            <code style="padding-left: 20px">killer.Move(mainBase.Location)</code>
+            <code>Trigger.OnKilled(myFactory, function (_, killer)</code><br />
+            <code style="padding-left: 20px">killer.Move(mainBase.Location)</code><br />
             <code>end</code>
             <p>(Note: the _ in the first spot means to ignore that parameter. The function has two parameters but we're only using the one.)</p>
             <p>According to the OpenRA Doc, the function that runs is called the <b>callback function</b>, and it's called with a specific set of parameters that relate to the trigger (for example, which actors were involved). Whatever we want to do after the triggers fires goes in it.</p>
