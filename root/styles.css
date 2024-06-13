@@ -91,3 +91,23 @@ footer {
         margin: 0 10px;
         color: white;
     }
+
+/* To Top Button styles */
+#toTopBtn {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99; /* Ensure it's above other content */
+    background-color: #800000; /* Dark red background color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+    #toTopBtn:hover {
+        background-color: #555; /* Darker background on hover */
+    }

@@ -292,5 +292,26 @@
         <a href="https://github.com/SteamsDev">Github</a>
         <a href="https://www.linkedin.com/in/devon-fair-84442224a">LinkedIn</a>
     </footer>
+
+    <!-- To Top Button -->
+    <button id="toTopBtn">Top</button>
+
+    <script>
+    // JavaScript to handle the scroll to top functionality
+    const toTopBtn = document.getElementById('toTopBtn');
+
+    toTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Optional: Show the button only when the user scrolls down
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 100) {
+            toTopBtn.style.display = 'block';
+        } else {
+            toTopBtn.style.display = 'none';
+        }
+    });
+    </script>
 </body>
 </html>
