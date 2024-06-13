@@ -37,7 +37,7 @@
                     <ul class="subprojects">
                         <li><a href="./luaintro.html">Introduction to Lua</a></li>
                         <li><a href="./ataglance.html">OpenRA's API At A Glance</a></li>
-                        <li><a herf="#">Making an OpenRA Script</a></li>
+                        <li><a href="#">Making an OpenRA Script</a></li>
                         <li><a href="#">Advanced Tips and Tricks</a></li>
                     </ul>
                 </li>
@@ -55,7 +55,7 @@
                 <li><a href="#triggers">Triggers</a></li>
                 <li><a href="#mapcontrols">Sound Controls and Text Displays</a></li>
                 <li><a href="#production">Production Controls and Queues</a></li>
-                <li><a href="misc">Miscellaneous Information</a></li>
+                <li><a href="#misc">Miscellaneous Information</a></li>
             </ul>
             <br />
             <h3 id="vscodeext">OpenRA Extensions for VSCode</h3>
@@ -219,7 +219,7 @@
             <h3 id="mapcontrols">Sound Controls and Text Displays</h3>
             <p>Now we move on to some less important things. I'll keep things brief here since we're already deep into the tutorial and most of the essentials were already covered. We'll start with sound and display controls, which are mostly done with the <b>Media</b> library. It basically allows you to play sounds and display text in certain areas that OpenRA and the mod you're using allows.</p>
             <p>Similar to triggers, you use the Media by adding it, then choosing which function you want to run, then any parameters it takes. Here's an example:</p>
-            <code>Media.PlaySound("mysound")</code>
+            <code style="padding-left: 20px">Media.PlaySound("mysound")</code>
             <p>Most of these take strings as its input to find the file it's looking for (in the case of sound anyway), so it's best to know beforehand what the IDs of the sound files you're looking for are. You can find these in your mod's main directory under <code>mods -> [modname] -> audio</code>.</p>
             <p>Let's go over the few basic functions you might want to use:</p>
             <ul>
@@ -228,6 +228,62 @@
                 <li><b>PlaySound:</b> Plays a sound file. Again, make sure you can find it first.<br /><code>Media.PlaySound("explosion2")</code></li>
                 <li><b>PlaySpeechNotification:</b> Plays a speech file.<br /><code>Media.PlaySpeechNotification("LowPower")</code></li>
             </ul>
+            <h3 id="production">Productions Controls and Queues</h3>
+            <p>Admittedly, I'm not that familiar with this section, so I'm kind of going in blind here, but I think I know enough about it not that I can give a brief explanation of how OpenRA's production works. The way OpenRA does its production for buildings, vehicles, etc differs depending on a few things, so let's look into those.</p>
+            <p>I'll start by explaining OpenRA's production queues. There are two general types of queues that we need to know for scripting:</p>
+            <ul>
+                <li><b>Single-Queue:</b> One queue for each unit/structure type; production time increases for each queue depending on how many of that structure is deployed. Queueing is dependent on the <b>player.</b></li>
+                <li><b>Multi-Queue:</b> Every production structure deployed gets its own queue; Queueing is dependent on the <b>actor</b> and there are no multipliers.</li>
+            </ul>
+            <p>(There is a derivation called <b>Multi-Queue Scaled</b>, but it bears a lot of similarities to standard multi-queue and thus isn't worth talking about here.)</p>
+            <p>Production in Lua is done with the <code>Build</code> function, and depending on the type of production queue, it is attached to either a player or an actor. Examples of both are below:</p>
+            <ul>
+                <li>Player (Single-Queue): <code>playerName.Build(taskForce, function(tf) [...] end)</code></li>
+                <li>Actor (Multi-Queue): <code>actorName.Build(taskForce, function(tf) [...] end)</code></li>
+            </ul>
+            <p>The callback function is optional, but recommended to give the taskforce something to do after they're done being produced. Otherwise, you can give them orders outside of the Build command once the task force is ready.</p>
+            <p>It can be hard to tell which production queueing method a mod uses primarily, but the best example is the two most popular mods that come with OpenRA as standard: <b>Tiberian Dawn</b> and <b>Red Alert</b>. Here's the biggest difference:</p>
+            <ul>
+                <li><b>Tiberian Dawn:</b> Relies on multi-queue production and thus each factory gets a production queue.</li>
+                <li><b>Red Alert:</b> Relies on single-queue production primarily and thus each player gets one production queue for each building/unit type.</li>
+            </ul>
+            <p>A glance at some of the scripts in each of these mods shows this difference in action:</p>
+            <img src="images/tdpro.png" width="600" />
+            <img src="images/rapro.png" />
+            <div style="font-size: 10px">
+                <p>Top: Snippet from <b>gdi03.lua</b>, the script for the third GDI mission in the TD mod.<br />Bottom: Snippet from <b>allies02.lua</b>, the script from the second Allies mission in the RA mod.</p>
+            </div>
+            <p>In the case of the TD script, we can see that the <code>Build</code> command is attached to an actor (in  this case, a Nod barracks), meaning that the queue is attached to the building. In the RA map, it's attached to the map's AI player (USSR) and thus the queue comes from the player instead of the factory. This demonstrates the different between a mod that handles single-queue production and multi-queue production.</p>
+            <p>We'll get more into production in the Advanced Tips and Tricks section, especially when we cover some other functions of OpenRA's Lua. For now, hopefully you have a surface-level understanding of it now.</p>
+            <h3 id="misc">Miscellaneous Information</h3>
+            <p>Now for some other bits of information that you'll want to know in order to understand the basics. Most of this is pulled from the OpenRA Lua, so go check that out for more information.</p>
+            <p>Let's start by circling back around to <b>DateTime</b>, which was touched on briefly when we were talking about triggers. DateTime is an OpenRA Library that keeps track of gaem time and has several values and functions that are useful for time-related events. I would say if you have a defense mission or want to use time to dictate the flow of events, you should use this library heavily for that.</p>
+            <p>Note that game time is kept track of using <b>ticks</b> rather than seconds or minutes. A tick basically equates to one frame of gameplay in OpenRA, and from what I can tell, a second basically equates to 30-60 game ticks in normal gameplay. The good news is that DateTime allows you to convert seconds and minutes of time into game ticks, allowing that amount of time to pass in-game. Make sure you use those instead of regular numbers, because otherwise the pacing of the map will be way too fast.</p>
+            <p>Here are the DateTime functions you'll want to know:</p>
+            <ul>
+                <li><b>GameTime:</b> The total game time (in ticks).<br /><code>totalTime = DateTime.GameTime</code></li>
+                <li><b>Minutes:</b> Takes a number of minutes and converts it into game ticks.<br /><code>Trigger.AfterDelay(DateTime.Minutes(4), function() [...] end)</code></li>
+                <li><b>Seconds:</b> Takes a number of seconds and converts it into game ticks.<br /><code>Trigger.AfterDelay(DateTime.Seconds(20), function() [...] end)</code></li>
+                <li><b>TimeLimit:</b> Allows you to set or get the time limit of the map. Once set, it immediately starts counting down until it hits 0.<br /><code>DateTime.TimeLimit = DateTime.Minutes(4) + DateTime.Seconds(20)</code></li>
+            </ul>
+            <p>Now let's also circle back to <b>Reinforcements</b>. I touched on this too back during the Actors section, but I also wanted to talk more about it since both of its functions can play a vital role in the flow of the map. We'll first talk about <code>Reinforce</code>. Like I said before, the way you use the function is:</p>
+            <code style="padding-left: 20px">mySquad = Reinforcements.Reinforce(myPlayer, taskForce, entryPath, 0)</code>
+            <p>Both the task force and entry path are lists, with one being a list of actor types and another being a list of waypoints that represent a path of entry, and the numebr is the delay (in ticks) between when one unit spawns and when the next unit does. The first waypoing in the entry path is the task force's spawn point.</p>
+            <p>The reinforcement can also have an associated function with it:</p>
+            <code style="padding-left: 20px">mySquad = Reinforcements.Reinforce(myPlayer, taskForce, 0, function(tf) [...] end)</code>
+            <p>You should have one associated with the task force to make the map more fun to play, especially for AI task forces to allow them to attack the player or something of that nature.</p>
+            <p>There is also a companion function called <code>ReinforceWithTransport</code>. While similar, this function is a great departure from the standard reinforcement function because of the introduction of a transporter. It's usually written like this:</p>
+            <code style="padding-left: 20px">mySquad = Reinforcements.ReinforceWithTransport(myPlayer, transport, taskForce, entryPath, exitPath, function(t, tf) [...] end, function(t) [...] end)</code>
+            <p>Because of the complications added with the transport, there is now an exit path along with an entry path as well as an exit function, both of which are specifically tailored to controlling the transport. If you want to add an exit function but not use an exit path, you can use <code>nil</code> in place of an exit path so that the script will ignore it.</p>
+            <p>I would recommend the second one especially for beach landings, but bear in mind that it takes a lot of tinkering to get right. If not done well, it will make the transport just disappear with its cargo instead of land and unload. Best to leave the <code>actionFunc</code> and <code>exitFunc</code> alone if they end up causing you trouble.</p>
+            <p>The last thing I want to talk about in this section is the <b>Camera</b> library. I'll keep this one brief: This essentially lets you control the player camera, and it has a single function: <b>Position</b>. This is essentiallty a WPos that controls the camera's X and Y position as well as its height (Z). its usage is simple:</p>
+            <code style="padding-left: 20px">Camera.Position = WPos.New(64, 64, 0)</code>
+            <p>If you get annoyed by the player camera starting in the very center of the map, this is a great one to remember. One solution is to move the camera to a waypoint or some other actor at the very beginning of the game, like so:</p>
+            <code style="padding-left: 20px">Camera.Position = camSpawn.CenterPosition</code>
+            <br /><br />
+            <p>With that, we've covered essentially all the basics of Lua scripting! We are now well-equipped to make our very own mission scripts and campaigns for the mods we love! I would encourage you at this point to go to your favorite mod and do some exploration - see all of the actor types you can mess with and read through some OpenRA mission scripts to get a better understanding of how they work and apply them to your own maps. Some great resources I can recommend are the <a href="https://github.com/OpenRA/OpenRA">OpenRA Github</a> and, of course, the <a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Doc</a>, but you can also check out the OpenRA Discord and Resource Center for more inspiration and information.</p>
+            <p>Or, just stick to this tutorial, as the next chapter is going to go into the process of making an OpenRA script from start to finish! You can check it out with the link at the top or by clicking <a href="#">here</a>.</p><br />
+            <p>Good luck with your scripting!</p>
         </div>
     </div>
 
