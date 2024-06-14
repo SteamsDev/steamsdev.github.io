@@ -149,7 +149,7 @@
             <img src="images/actorsmapdesc.png" />
             <p>We'll use these identifiers a lot as we get into making our own actors, as this is what the game uses to spawn new actors in the script.</p>
             <p>To make a new actor by itself, we can use the <code>Actor.Create()</code> function. It's only real functionality is to create a new actor of a specified type and with a set of initial properties. For example:</p>
-            <code style="padding-left: 20px">myTank = Actor.Create("1tnk", true, {Owner = Allies, Location = myLocation.Location}</code>
+            <code style="padding-left: 20px">myTank = Actor.Create("1tnk", true, {Owner = Allies, Location = myLocation.Location})</code>
             <p>In this case, we are taking a new tank of type <code>1tnk</code>, adding it to the world (<code>addToWorld = true</code>) and specifying in a Lua table that its owner is the player (Allies) and that it's starting at a preexisting location (<code>MyLocation.Location</code>).</p>
             <p>To spawn them as a reinforcement for a given player, we can use the <code>Reinforcements</code> function set, which has a few useful functions for spawning new scripted actors. We'll focus first on the <code>Reinforce</code> function, which takes a list of actor types and spawns those actors with a desired path of entrance. An example of this is:</p>
             <code style="padding-left: 20px">mySquad = Reinforcements.Reinforce(Allies, {"e1", "e1", "e1", "1tnk"}, {ActorSpawn.Location, ActorDest.Location})</code>
@@ -162,15 +162,15 @@
                 <li><b>CPos:</b> Short for "CellPosition," it defines the location of an actor or object based on <b>cell positioning</b>, which is defined by an X and Y coordinate. This is the positioning unit most used for actors.</li>
                 <li><b>WPos:</b> Short for "WorldPosition," it defines the location of an object based on <b>world positioning</b>, which is defined by an X, Y, and Z coordinate. This is less widely used and is usually used for the player camera.</li>
             </ul>
-            <p>If you want to define your own position for an actor, both CPos and WPos come with a function called <code>New</code>, which as the name suggests lets you define a new Cpos or WPos coordinate and save it as a variable. For example:</p>
+            <p>If you want to define your own position for an actor, both CPos and WPos come with a function called <code>New</code>, which as the name suggests lets you define a new CPos or WPos coordinate and save it as a variable. For example:</p>
             <ul>
                 <li><code>actorPosition = CPos.New(32, 32)</code></li>
                 <li><code>cameraPosition = WPos.New(56, 64, 0)</code></li>
             </ul>
             <p>You can also use the map editor to determine positioning. Hover over something in the editor and look to the top of the screen. You'll see the coordinates of the cell you're hovering over next to the Overlays tab:</p>
             <img src="images/coordinates.png" />
-            <p>By using this to define our CPos and WPos coordinates, we can save ourselves some actors for other purposes. Just make sure you don't confuse it with an actor when you're not paying attention...</p>
-            <p>There are a lot more to actors than just these, however. Here's juts some of the functions/properties that you'll want to know when playing with them:</p>
+            <p>By using this to define our CPos and WPos coordinates, we can save ourselves some actors for other purposes. Just make sure you don't confuse a CPos/WPos with an actor when you're not paying attention...</p>
+            <p>There are a lot more to actors than just these, however. Here's just some of the functions/properties that you'll want to know when playing with them:</p>
             <ul>
                 <li><b>Attack:</b> Tells the actor to attack another actor. Requires that the actor being attacked is not cloaked, submerged, or otherwise invisible. <br /><code>soldier.Attack(enemyFact)</code><br /><code>soldier.Attack(friendlyFact, true, true)</code></li>
                 <li><b>AttackMove:</b> Tells the actor to move to a location, attacking anything that comes within its field of vision.<br /><code>tank.AttackMove(spawnPoint.Location)</code></li>
@@ -200,11 +200,11 @@
             <code>Trigger.OnEnteredProximityTrigger(chronosphere.CenterPosition, WDist.New(3 * 1024), function (a, id)</code><br />
             <code style="padding-left: 20px">Trigger.RemoveProximityTrigger(id)</code><br />
             <code style="padding-left: 20px">--// other bits of code //--</code><br />
-            <code>end</code>
+            <code>end)</code>
             <p>I would highly encourage you to read through the OpenRA Lua Doc to get a better understanding of the triggers and how they work, and as always, experience is everything, so try out a few and see what they do. Here's a few that I've used regularly and that are frequent in campaign maps:</p>
             <ul>
                 <li><b>AfterDelay:</b> Fires after a specifc delay in time (measured in ticks). This function makes use of <code>DateTime</code>, an OpenRA library that keeps track of time and has several functions related to time and dates.<br /><code>Trigger.AfterDelay(DateTime.Seconds(30), function() [...] end)</code></li>
-                <li><b>OnAllKilled:</b> Fires when the specified list of actors are killed in some way (except for being manually removed by <code>Destroy</code>.<br /><code>Trigger.OnAllKilled(playerActors, function () [...] end)</code></li>
+                <li><b>OnAllKilled:</b> Fires when the specified list of actors are killed in some way (except for being manually removed by <code>Destroy</code>).<br /><code>Trigger.OnAllKilled(playerActors, function () [...] end)</code></li>
                 <li><b>OnAnyKilled:</b> Similar to the above, except that it fires when any of the actors is killed.<br /><code>Trigger.OnAnyKilled(playerActors, function () [...] end)</code></li>
                 <li><b>OnCapture:</b> Fires when the specified actor is captured.<br /><code>Trigger.OnCapture(myFactory, function (self, captor, oldOwner, newOwner) [...] end)</code></li>
                 <li><b>OnEnteredFootprint:</b> Fires when an actor has entered a "footprint," a list of cell positions that surround an actor.<br /><code>Trigger.OnEnteredFootprint(myWaypoint.ExpandFootPrint(), function (a, id) [...] end)</code></li>
