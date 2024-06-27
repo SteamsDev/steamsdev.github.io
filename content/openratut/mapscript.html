@@ -37,29 +37,57 @@
                     <ul class="subprojects">
                         <li><a href="./luaintro.html">Introduction to Lua</a></li>
                         <li><a href="./ataglance.html">OpenRA's API At A Glance</a></li>
-                        <li><a herf="./mapscript.html">Making a Lua Script</a></li>
+                        <li><a href="#">Making an OpenRA Script</a></li>
                         <li><a href="#">Advanced Tips and Tricks</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
         <div id="content">
-            <h2>OpenRA Lua Tutorial</h2>
-            <p>If you ever wondered how to get started with making custom campaigns/scripted maps in OpenRA and want a starting point, this tutorial aims to show you the basics and get you started on the path to making great custom maps like mine! Many of the tips featured here come from experience, but there are plenty of sources referenced here that you'll also want to check out after this turorial to get a full understanding of making maps in OpenRA.</p>
-            <br />
-            <p>References used in this tutorial:</p>
+            <h2>Making an OpenRA Script</h2>
+            <p>Now, let's go through the process of making an OpenRA mission script from start to finish. We're going to use a map that's already been set up for scripting, with players and actors already defined and all the map rules in place. For this, I've created a zip file containing an example map that you can follow along with and use as you please. You can download it <a href="./maps/examplemap.zip">here</a></p>
+            <p>Chapters:</p>
             <ul>
-                <li><a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Documentation</a></li>
-                <li><a href="https://docs.openra.net/en/release/traits/">OpenRA Traits Documentation</a></li>
-                <li><a href="https://www.tutorialspoint.com/lua/index.htm">TutorialsPoint's Lua Tutorial</a></li>
+                <li><a href="#plan">Our Plan</a></li>
+                <li><a href="#objectives">Laying Out Objectives</a></li>
+                <li><a href="#players">Creating Player Taskforces</a></li>
+                <li><a href="#enemies">Creating Enemy Taskforces</a></li>
+                <li><a href="#dialogue">Mission Dialogue</a></li>
+                <li><a href="#finish">Finishing Touches</a></li>
+                <li><a href="#test">Testing/Debugging</a></li>
+                <li><a href="#packitup">Packing It Up</a></li>
             </ul>
-            <p>Use the sidebar to navigate through the tutorial and each topic that is covered.</p>
+            <br />
+            <h3 id="plan">Our Plan</h3>
+            <p>First, we need to figure out what we want our map to do, and thus coming up with a plan will really help. We'll start by opening up the map folder and see what we're dealing with.</p>
         </div>
     </div>
+
     <!-- Footer -->
     <footer>
         <a href="https://github.com/SteamsDev">Github</a>
         <a href="https://www.linkedin.com/in/devon-fair-84442224a">LinkedIn</a>
     </footer>
+
+    <!-- To Top Button -->
+    <button id="toTopBtn">Top</button>
+
+    <script>
+    // JavaScript to handle the scroll to top functionality
+    const toTopBtn = document.getElementById('toTopBtn');
+
+    toTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Optional: Show the button only when the user scrolls down
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 100) {
+            toTopBtn.style.display = 'block';
+        } else {
+            toTopBtn.style.display = 'none';
+        }
+    });
+    </script>
 </body>
 </html>
