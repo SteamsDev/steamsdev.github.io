@@ -49,7 +49,7 @@
             <p>Chapters:</p>
             <ul>
                 <li><a href="#plan">Our Plan</a></li>
-                <li><a href="#objectives">Laying Out Objectives</a></li>
+                <li><a href="#mission">Laying Out The Mission</a></li>
                 <li><a href="#players">Creating Player Taskforces</a></li>
                 <li><a href="#enemies">Creating Enemy Taskforces</a></li>
                 <li><a href="#dialogue">Mission Dialogue</a></li>
@@ -60,6 +60,21 @@
             <br />
             <h3 id="plan">Our Plan</h3>
             <p>First, we need to figure out what we want our map to do, and thus coming up with a plan will really help. We'll start by opening up the map folder and see what we're dealing with.</p>
+            <p>Open up the ZIP file in your file explorer and you should see the following:</p>
+            <img src="./images/filecontents.png" width="500" />
+            <p>The Lua script will be our primary focus during this part of the tutorial, but we should also look at the two YAML files. We'll be referring back to these often when making our script, especially the map file.</p>
+            <p>Extract the archive to a spot on your hard drive and then open the map file. You should see a bunch of things it:</p>
+            <img src="./images/mapcontentsone.png" width="400" />
+            <p>THe stuff at the top is map information. You're free to put your name (or username) in the Author spot, but the rest should stay unmodified (since all if it is being read by the mod and modifications could result in the game crashing).</p>
+            <p>The spot below is what we should look at next. These are the defined players on the map (b they computer-controlled, human-controlled, or neither). I've highlighted the two that were added to the map for scripting purposes:</p>
+            <img src="./images/mapcontentstwo.png" width="300" />
+            <p>Let's talk about both of them.</p>
+            <ul>
+                <li><b>BluePlayer</b>: This is the human-controlled player. The <code>AllowBots</code> and <code>Playable</code> attributes define if the player can be controlled by the bots (in this case, no) and whether this is a human-controlled player (in this case, yes). Its faction is <i>Allies</i> with the subfaction <i>England</i>, it has no allies and its enemy is <i>RedPlayer</i>.</li>
+                <li><b>RedPlayer</b>: This is our computer opponent. We've set to use OpenRA's <code>campaign</code> but, but if you want the computer opponent to act like a skirmish AI, you can also set it to a <code>normal</code> bot by replacing it in the Attributes section. Its faction is <i>Soviets</i> with the subfaction <i>Russia</i>, it has no allies and its enemy is <i>BluePlayer</i>.</li>
+            </ul>
+            <p>Now for the fun one: go ahead and open up the map in OpenRA by placing it in the map folder we talked about previously, then fire up OpenRA and open it in the Map Editor:</p>
+
         </div>
     </div>
 
