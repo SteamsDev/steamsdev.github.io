@@ -73,8 +73,24 @@
                 <li><b>BluePlayer</b>: This is the human-controlled player. The <code>AllowBots</code> and <code>Playable</code> attributes define if the player can be controlled by the bots (in this case, no) and whether this is a human-controlled player (in this case, yes). Its faction is <i>Allies</i> with the subfaction <i>England</i>, it has no allies and its enemy is <i>RedPlayer</i>.</li>
                 <li><b>RedPlayer</b>: This is our computer opponent. We've set to use OpenRA's <code>campaign</code> but, but if you want the computer opponent to act like a skirmish AI, you can also set it to a <code>normal</code> bot by replacing it in the Attributes section. Its faction is <i>Soviets</i> with the subfaction <i>Russia</i>, it has no allies and its enemy is <i>BluePlayer</i>.</li>
             </ul>
-            <p>Now for the fun one: go ahead and open up the map in OpenRA by placing it in the map folder we talked about previously, then fire up OpenRA and open it in the Map Editor:</p>
-
+            <p>Now for the fun one: go ahead and open up the map in OpenRA by placing it in the map folder we talked about previously. Fire up OpenRA, navigate to <code>Extras -> Map Editor -> Load Map</code>, select the example map, then click <code>Load</code>. You should come to the map editor screen:</p>
+            <img src="./images/ramapeditor.png" width="800" />
+            <p>This is the map we have to work with. As you can see, it is pretty simple witha player on each side, with the human player on the bottom right and the red player on the top left, and the other two corners taken up by villages with waypoints that represent scripted events and markers. We'll get back to that last one later, but for now let's look at one of these actors.</p>
+            <p>Each actor has specific properties associated with them. Specifically each actor has a <b>name, owner, location, and type</b>, all of which are displayed both in the YAML file as well as in the map editor:</p>
+            <img src="./images/actorfeaturescompare.png" />
+            <p>Actors are essential to the functionality to the map. This small(ish) map only has about 70 or so actors, but some maps (especially larger and more complicated ones) will likely have more than 200, 500, or in rare cases even 1000 actors, each of which play their role through custom rules and game scripts. Get ready for a ride when you get into more complicated maps as it can be a tedious process placing all of those actors...</p>
+            <p>Back to the YAML file, the only other thing to note is the rules section at the bottom. This is usually just one line of code linline to a separate ruels file (as seen here) or a set of rules plopped in at the bottom of the map to change specific OpenRA rules.</p>
+            <img src="./images/mapyamlrules.png" />
+            <p>If we take a look at the <b>rules</b> file included in our map, there we can see that the only rule we have in place is a link to the map script we're using. This is nothing too special, but you can also define your own rules to imot or include units, change the amount of starting money, whether or not random crates spawn, among other things. That RA camapign rules file that's listed before our rules file goes more in-depth, so you can check that out by going to the <a href="https://github.com/OpenRA/OpenRA"><b>OpenRA Github</b></a> or your own OpenRA installation and going to <code>mods -> ra -> rules</code> and clicking on <code>campaign-rules.yaml</code>. If you're on Linux, you're better off using the Github since the AppImage is kind of not intended to be pried into...</p>
+            <img src="./images/rulescontents.png" />
+            <p>So, how does all this relate to the plan we're making? Well, first we need to lay out what we want to happen - who we want to win, what we want to happen on a given part of the map, and if there's any preconditions we want to address. In this case, we already know just by looking at the map that:</p>
+            <ul>
+                <li>We have two players - one human-controlled and one computer-controlled.</li>
+                <li>The human player has to build up their base while the computer has a base already set up.</li>
+                <li>There are two villages at the corners that have waypoints for scripted events.</li>
+            </ul>
+            <p>Thus, the plan should probably be that we want to make a map where the human player must eliminate the computer player and, either as an added bonus or a requirement, go to the village to receive reinforcements. It's not that complex, but it should fit all of the criteria that we want out map to fulfill. For larger maps with covert-like stealth or the like, you'd want to have a larger set of criteria and a plan that fits all of those criteria, especially with computer-controlled units that are on patrol.</p>
+            <p>Great, we have a plan! Let's start writing our script!</p>
         </div>
     </div>
 
