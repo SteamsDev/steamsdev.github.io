@@ -99,7 +99,7 @@
             <p>We should also make our objectives while we're here. According to our plan, the end goal is for the human player to defeat the enemy computer, so we assign a promary objective to the player that tells them to destroy their computer opponent. For that we're going to use <b>AddPrimaryObjective</b>:</p>
             <img src="./images/addobjective.png" width="400" />
             <p>We should also add some functions that we will use to spawn reinforcements in the future. This will come more into play in the net chapter.</p>
-            <img src="./images/blackreinforce.png" width="400" />
+            <img src="./images/blankreinforce.png" width="400" />
             <p>Finally for this section, we're goign to need to mark the objective as completed when the player has done their task. Remember that to mark an objective as complete, we can use the <b>MarkCompletedObjective</b> function after specifying a player. We can add this to the <code>Tick</code> section so that it checks this condition every frame, and since out condition is thal all of Red's forces need to be eliminated, we can use the <b>HasNoRequiredUnits</b> function to specify that. When all is set and done, the <code>Tick</code> part should look like this:</p>
             <img src="./images/tickone.png" />
             <p>Alternatively, we should maek the objective as Failed if the blue player loses all their units and buildings. We can place this underneath the previous command we gave and swap the <b>MarkCompletedObjective</b> function for the <b>MarkFailedObjective</b> function. That way, it will fail theb player if they lose all their stuff instead of the enemy. Once done, your code should look like this:</p>
