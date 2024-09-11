@@ -75,7 +75,7 @@
             </ul>
             <p>Now for the fun one: go ahead and open up the map in OpenRA by placing it in the map folder we talked about previously. Fire up OpenRA, navigate to <code>Extras -> Map Editor -> Load Map</code>, select the example map, then click <code>Load</code>. You should come to the map editor screen:</p>
             <img src="./images/ramapeditor.png" width="800" />
-            <p>This is the map we have to work with. As you can see, it is pretty simple witha player on each side, with the human player on the bottom right and the red player on the top left, and the other two corners taken up by villages with waypoints that represent scripted events and markers. We'll get back to that last one later, but for now let's look at one of these actors.</p>
+            <p>This is the map we have to work with. As you can see, it is pretty simple. We have a player on each side, with the human player on the bottom right and the red player on the top left, and the other two corners taken up by villages with waypoints that represent scripted events and markers. We'll get back to that last one later, but for now let's look at one of these actors.</p>
             <p>Each actor has specific properties associated with them. Specifically each actor has a <b>name, owner, location, and type</b>, all of which are displayed both in the YAML file as well as in the map editor:</p>
             <img src="./images/actorfeaturescompare.png" />
             <p>Actors are essential to the functionality to the map. This small(ish) map only has about 70 or so actors, but some maps (especially larger and more complicated ones) will likely have more than 200, 500, or in rare cases even 1000 actors, each of which play their role through custom rules and game scripts. Get ready for a ride when you get into more complicated maps as it can be a tedious process placing all of those actors...</p>
@@ -91,6 +91,7 @@
             </ul>
             <p>Thus, the plan should probably be that we want to make a map where the human player must eliminate the computer player and, either as an added bonus or a requirement, go to the village to receive reinforcements. It's not that complex, but it should fit all of the criteria that we want out map to fulfill. For larger maps with covert-like stealth or the like, you'd want to have a larger set of criteria and a plan that fits all of those criteria, especially with computer-controlled units that are on patrol.</p>
             <p>Great, we have a plan! Let's start writing our script!</p>
+            <br />
             <h3 id="mission">Laying Out the Mission</h3>
             <p>Let's finally open up that mission script and see what we have to work with:</p>
             <img src="./images/luafilefirstboot.png" width="700" />
@@ -100,12 +101,15 @@
             <img src="./images/addobjective.png" width="400" />
             <p>We should also add some functions that we will use to spawn reinforcements in the future. This will come more into play in the net chapter.</p>
             <img src="./images/blankreinforce.png" />
-            <p>Finally for this section, we're goign to need to mark the objective as completed when the player has done their task. Remember that to mark an objective as complete, we can use the <b>MarkCompletedObjective</b> function after specifying a player. We can add this to the <code>Tick</code> section so that it checks this condition every frame, and since out condition is thal all of Red's forces need to be eliminated, we can use the <b>HasNoRequiredUnits</b> function to specify that. When all is set and done, the <code>Tick</code> part should look like this:</p>
+            <p>Finally for this section, we're going to need to mark the objective as completed when the player has done their task. Remember that to mark an objective as complete, we can use the <b>MarkCompletedObjective</b> function after specifying a player. We can add this to the <code>Tick</code> section so that it checks this condition every frame, and since out condition is thal all of Red's forces need to be eliminated, we can use the <b>HasNoRequiredUnits</b> function to specify that. When all is set and done, the <code>Tick</code> part should look like this:</p>
             <img src="./images/tickone.png" />
-            <p>Alternatively, we should maek the objective as Failed if the blue player loses all their units and buildings. We can place this underneath the previous command we gave and swap the <b>MarkCompletedObjective</b> function for the <b>MarkFailedObjective</b> function. That way, it will fail theb player if they lose all their stuff instead of the enemy. Once done, your code should look like this:</p>
+            <p>Alternatively, we should mark the objective as Failed if the blue player loses all their units and buildings. We can place this underneath the previous command we gave and swap the <b>MarkCompletedObjective</b> function for the <b>MarkFailedObjective</b> function. That way, it will fail theb player if they lose all their stuff instead of the enemy. Once done, your code should look like this:</p>
             <img src="./images/ticktwo.png" width="400" />
             <p>Congratulations! Our map is now functional! Fell free to jump back into the game and test it out. Try taking out the red player out and see what happens, and then try being an idiot and getting taken out yourself and see what happens. If you catch any errors, make sure to iron them out before contiunuing, because we'll bne adding more to it as we move forward, and having a functional map throughout is the most important thing for this tutorial, so remember to playtest often.</p>
             <p>Alright, time to get more involved! Let's talk about player taskforces and reinforcements!</p>
+            <br />
+            <h3 id="players">Creating Player Taskforces</h3>
+
         </div>
     </div>
 
