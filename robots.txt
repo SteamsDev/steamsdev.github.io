@@ -1,5 +1,5 @@
 User-agent: *
-Disalloe: ./content/openratut/images
+Disallow: ./content/openratut/images
 Disallow: ./content/iriswar/images
 Disallow: ./content/searchengine/
 Disallow: root/
