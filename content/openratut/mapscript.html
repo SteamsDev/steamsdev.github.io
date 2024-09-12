@@ -119,7 +119,9 @@
             <img src="./images/blueunits.png" width="400" />
             <p>Each entry in the list counts as a unit, so don't be afraid to add multiple of the same unit type to get a larger taskforce. In fact, this list is fairly tame for a taskforce... most maps can have a list of up to 20 units in one taskforce, depending on the situation.</p>
             <p>Now we need to be able to spawn the taskforce in. For this, we'll be using triggers and, specifically, the <b>OnEnteredProximityTrigger</b> trigger type. On our map, there are waypoints that indicate an area where, if the player enters it, the trigger should fire.</p>
-            
+            <img src="./images/reintrigone.png" width="400" />
+            <p>We can use the name of this waypoint (<code>FirstReinforcementTrigger</code>) in our script without having to define it (because it's already defined as a global by the game). Let's go ahead and start making our trigger. Remember that we need to use <b>WDist</b> to define the trigger's firing radius and that we should delete the trigger at the end to avoid any memory problems. We'll need the <code>CenterPosition</code> of our waypoint and will be using both the actor and the trigger ID in our callback function. The end result should look like this:</p>
+            <img src="./images/proximitytrigger.png" width="600" />
 
         </div>
     </div>
