@@ -109,6 +109,17 @@
             <p>Alright, time to get more involved! Let's talk about player taskforces and reinforcements!</p>
             <br />
             <h3 id="players">Creating Player Taskforces</h3>
+            <p>Let's revisit one of those functions we created earlier, specifically the one for the Blue Player Reinforcements. For this map, we'll want to give the player some reinforcements when they enter the two villages at the top-right and bottom-left of the map, so let's add those in now.</p>
+            <p>First, let's go back into the map editor and see what units we want to use. Go to the Actors tab and hover over a unit to see its type.</p>
+            <img src="./images/onetank.png" width="300" /><br />
+            <img src="./images/twotank.png" width="300" />
+            <p>The <b>Light Tank</b> and <b>Medium Tank</b> in Red Alert are Allied units. These should work for what we need. Make a note of their type, as we will be using these in out script. We can also used the Ranger (also an Allied unit) if we want some anti-personnel vehiclews in our reinforcement:</p>
+            <img src="./images/jeeptype.png" width="300" />
+            <p>Let's create our list of vehicles as a separate variable for easier access. Add a list to your function that will list out all the vehicles that will be in the taskforce, like this:</p>
+            <img src="./images/blueunits.png" width="400" />
+            <p>Each entry in the list counts as a unit, so don't be afraid to add multiple of the same unit type to get a larger taskforce. In fact, this list is fairly tame for a taskforce... most maps can have a list of up to 20 units in one taskforce, depending on the situation.</p>
+            <p>Now we need to be able to spawn the taskforce in. For this, we'll be using triggers and, specifically, the <b>OnEnteredProximityTrigger</b> trigger type. On our map, there are waypoints that indicate an area where, if the player enters it, the trigger should fire.</p>
+            
 
         </div>
     </div>

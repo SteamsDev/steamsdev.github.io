@@ -135,14 +135,14 @@
                         <li><b>GetActorsByTypes:</b> Gets all actors on map whose type matches any one of the types specified (again, more on that in a bit).<br /> <code>PlayerActors = PlayerName.GetActorsByTypes({"e1", "e2"})</code></li>
                     </ul>
                 </li>
-                <li><b>HasNoRequiredUnits:</b> A condition that's true if all <i>combat</i> units (i.e. tanks) and non-tech buildings are killed. Will always be false if there's at least one unit that meets the conditions still on the map.<br /> <code>if PlayerName.HadNoRequriedUnits() then [...] end</code></li>
+                <li><b>HasNoRequiredUnits:</b> A condition that's true if all <i>combat</i> units (i.e. tanks) and non-tech buildings are killed. Will always be false if there's at least one unit that meets the conditions still on the map.<br /> <code>if PlayerName.HasNoRequriedUnits() then [...] end</code></li>
                 <li><b>IsBot:</b> Whether or not the player is a bot (duh).<br /> <code>if PlayerName.IsBot then [...] end</code></li>
                 <li><b>MarkCompletedObjective: </b> Marks a stated objective as completed. Once all non-resolved primary objectives are marked as completed, the game ends in a success.<br /> <code>PlayerName.MarkCompletedObjective(Obj1)</code></li>
                 <li><b>MarkFailedObjective: </b> Marks a stated objective as failed. If at least one primary objective is marked as failed, the game ends in a failure.<br /> <code>PlayerName.MarkFailedObjective(Obj2)</code></li>
             </ul>
             <p>On the <a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Doc</a>, it specifies either a <b>get</b> or a <b>set</b> value for a given function/property as well as what's required for the function to work. The only real difference is that <b>get</b> means you can see the value of that function/variable and <b>set</b> means you can modify it. Pretty simple.</p>
             <h3 id="actors">Actors and Actor Properties</h3>
-            <p>Now it's time to get into the <i>real</i> nitty-gritty of any OpenRA Lua scrpit: actors. Actors are any infantry, vehicle, ship, building, scripting item, or anything else that can be placed on a map and interacted with. You can both create and access actors present on the map within the script, and can even access actors present in the <code>map.yaml</code> file.</p>
+            <p>Now it's time to get into the <i>real</i> nitty-gritty of any OpenRA Lua script: actors. Actors are any infantry, vehicle, ship, building, scripting item, or anything else that can be placed on a map and interacted with. You can both create and access actors present on the map within the script, and can even access actors present in the <code>map.yaml</code> file.</p>
             <p>You can see all of the actors for a given mod by opening up the mod, going into the map editor and opening the "Actors" tab:</p>
             <img src="images/actorsmap.png" />
             <p>Every actor in a given mod has a name and an identifier. You can see what these are by hovering over the actor in the editor:</p>
@@ -157,7 +157,7 @@
             <p>Speaking of, there are actors meant specifically for use in scripted maps. In the above, both of these actors are waypoints, which have the type <code>waypoint</code> and can only be seen in the map editor and, obviously, in out script. There are also cameras that can be used in our script that will allow the owner player to see around it, like this:</p>
             <img src="images/camerademo.png" />
             <p>In this demo, the camera, which belings to the human player, shows a certain area to them (i.e. the battle that is shown). There are also waypoints shown that will spawn reinforcements belingong to the yellow player (an AI player) later on.</p>
-            <p>Every actor also has a specific <i>location</i> the essentially defines where they are. This is a good time to bring up <b>CPos</b> and <b>WPos</b>, which help define the positioning of actors and other things around the map. This is essnetially the difference between the two:</p>
+            <p>Every actor also has a specific <i>location</i> the essentially defines where they are. This is a good time to bring up <b>CPos</b> and <b>WPos</b>, which help define the positioning of actors and other things around the map. This is essentially the difference between the two:</p>
             <ul>
                 <li><b>CPos:</b> Short for "CellPosition," it defines the location of an actor or object based on <b>cell positioning</b>, which is defined by an X and Y coordinate. This is the positioning unit most used for actors.</li>
                 <li><b>WPos:</b> Short for "WorldPosition," it defines the location of an object based on <b>world positioning</b>, which is defined by an X, Y, and Z coordinate. This is less widely used and is usually used for the player camera.</li>
