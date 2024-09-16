@@ -122,6 +122,17 @@
             <img src="./images/reintrigone.png" width="400" />
             <p>We can use the name of this waypoint (<code>FirstReinforcementTrigger</code>) in our script without having to define it (because it's already defined as a global by the game). Let's go ahead and start making our trigger. Remember that we need to use <b>WDist</b> to define the trigger's firing radius and that we should delete the trigger at the end to avoid any memory problems. We'll need the <code>CenterPosition</code> of our waypoint and will be using both the actor and the trigger ID in our callback function. The end result should look like this:</p>
             <img src="./images/proximitytrigger.png" width="600" />
+            <p>So how do we spawn the taskforce in? Simple! We can use <code>Reinforcements.Reinforce</code> that we talked about before. We'll add a line that spawns a reinforcements taskforce in whose Player is the Blue Player, the taskforce is the one we created, and the entry path has two waypoints (you might have noticed them in the map editor already) called <b>ReinforceOneSpawnOne</b> and <b>ReinforceOneDest</b> (you can also use <b>ReinforceOneSpawnTwo</b> as the spawn location if you want). The order in which these things are added looks like this:</p>
+            <code style="padding-left: 20px">Reinforcements.Reinforce([player], [taskforce], {[spawnLocation], [...], {destLocation}})</code>
+            <p>So, let's go ahead and add this line, replacing the things in brackets with what we have at our disposal. It should look like this when we're finished:</p>
+            <img src="./images/reinforceonefinished.png" width="600" />
+            <p>Great! Now we can rinse and repeat for the other side of the map. You can copy and paste the same trigger we just implemented right underneath the original, and then replace all the 1's with 2's and the <i>first's</i> with <i>seconds</i>. It should look like this:</p>
+            <img src="./images/reinforcetwofinished.png" width="600" />
+            <p>All finished, right? Well, if you were a keen eye you'd notice something's off about these triggers. These are going to activate if <i>any</i> unit moves within its radius, but we only want it to happen when the blue units step into the radius. This is why we needed that <b>a</b> from before, as this will go into an <b>if</b> statement that will check to see if the unit that stepped into the radius belongs to the player. Go ahead and reimplement those two lines inside the trigger only this time with the conditional <code>a.IsLocalPlayer</code>. It should look like this when finished:</p>
+            <img src="./images/reinforceoneactual.png" width="650" />
+            <p>Then do the same for the second trigger:</p>
+            <img src="./images/reinforcetwoactual.png" width="650" />
+            <p><i>Now</i> we're finsihed. Save your changes here and them go back and test the map before moving on. Remember to double-check your script for any bugs that could crash the game. After that, we can move on to the next part of this tutorial.</p>
 
         </div>
     </div>
