@@ -143,12 +143,23 @@
             <p>These are what we're looking for. We have standard rifle infantry (denoted as the type <code>e1</code>) and rocket soldiers (as type <code>e3</code>). We could also do grenadiers (which is <code>e2</code>) but for now we'll stick with those two.</p>
             <img src="./images/sovvehone.png" width="300" />
             <img src="./images/sovvehtwo.png" width="300" />
-            <p>And these are our vehicles. The Soviets get different tanks from the allies, with the Heavy Tank being denoted as <code>2tnk</code> and the Mobile Flak Cannon as <code>ftnk</code>. THese will be for our vehicle taskforce while the two soldiers will go in our infantry taskforce.</p>
+            <p>And these are our vehicles. The Soviets get different tanks from the allies, with the Heavy Tank being denoted as <code>2tnk</code> and the Mobile Flak Cannon as <code>ftnk</code>. These will be for our vehicle taskforce while the two soldiers will go in our infantry taskforce.</p>
             <p>Let's go to our <code>MakeRedUnits</code> function and create those taskforces:</p>
             <img src="./images/redtaskforces.png" width="600" />
             <p>Now we need to get our red player to make those taskforces. A few advanced programming techniques are rquired for this part, so let's go through it together. Step one is to make sure the player still has the right factory. Let's go back to the map editor and see what the names of those factories are:</p>
-            
-
+            <img src="./images/barracksandfact.png" width="600" />
+            <p>Here we go. It looks like the barracks is <code>Actor54</code> and the war factory is <code>Actor46</code>. If either none of these actors is destroyed, then the player won't be able to produce a specific type of unit. Let's check for that using <b>IsDead</b> inside of an <b>if</b> statement:</p>
+            <img src="./images/deadactorsone.png" width="400" />
+            <p>Notice that we're checking to see if the actor is <b><i>not</i></b> destroyed rather than the opposite. That's because we need the code to run <i>only</i> if we have production capabilities, so if the actor is destroyed, we need our code to ignore the production part. This is the most efficient way to do it, but there are other ways as well.</p>
+            <p>Now we can actually tell the bot to produce some actors. Inside the <b>if</b> statement, add a <code>Build</code> command that will produce some units for us:</p>
+            <img src="./images/buildone.png" width="400" />
+            <p>Now we need to define a function to tell the units what to do after they're produced. This gets into something I'll talk baout more in Advanced Tips and Tricks, but I'll show you what to put down for your first script:</p>
+            <img src="./images/buildtwo.png" width="400" />
+            <p>All we're really doing is telling each unit to attack the nearest enemy, and they'll likely keep doing it after we tell them to since it's the only order they've been given. We'll talk more about <code>Utils.Do</code> when we get to the next chapter.</p>
+            <p>One last thing: We want the bot to keep producting units once every little while. Let's add a timer that will jump to the start of the function once it expires. We'll use <code>Trigger.AfterDelay</code> for this, with the delay being one and a half minutes:</p>
+            <img src="./images/redunitsdelay.png" width="600" />
+            <p>That should be everything! Add the function to <b>WorldLoaded</b> in the same way as the <code>MakeBlueUnits</code> function, then save and test your map. If you find that the enemy is coming too early, you can also set up a delay in <b>WorldLoaded</b> before the red player starts producing units. You can also add other units to the taskforces, although keep in mind that adding units that the player can't produce to the taskforces could cause the script to get messed up or the taskforce to just not be built. There are hierarchy trees online that you can look up if you don't know what units can be built by what sides.</p>
+            <p>We're almost done! One last section to go before we add the finishing touches.</p>
             
         </div>
     </div>
