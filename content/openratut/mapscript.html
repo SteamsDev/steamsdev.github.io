@@ -158,8 +158,17 @@
             <p>All we're really doing is telling each unit to attack the nearest enemy, and they'll likely keep doing it after we tell them to since it's the only order they've been given. We'll talk more about <code>Utils.Do</code> when we get to the next chapter.</p>
             <p>One last thing: We want the bot to keep producting units once every little while. Let's add a timer that will jump to the start of the function once it expires. We'll use <code>Trigger.AfterDelay</code> for this, with the delay being one and a half minutes:</p>
             <img src="./images/redunitsdelay.png" width="600" />
-            <p>That should be everything! Add the function to <b>WorldLoaded</b> in the same way as the <code>MakeBlueUnits</code> function, then save and test your map. If you find that the enemy is coming too early, you can also set up a delay in <b>WorldLoaded</b> before the red player starts producing units. You can also add other units to the taskforces, although keep in mind that adding units that the player can't produce to the taskforces could cause the script to get messed up or the taskforce to just not be built. There are hierarchy trees online that you can look up if you don't know what units can be built by what sides.</p>
+            <p>That should be everything! Add the function to <b>WorldLoaded</b> in the same way as the <code>MakeBlueUnits</code> function, then save and test your map. If you find that the enemy is coming too early, you can also set up a delay in <b>WorldLoaded</b> before the red player starts producing units. You could also shorten the time between when the red player producesd units or add other units to the taskforces, although keep in mind that adding units that the player can't produce to the taskforces could cause the script to get messed up or the taskforce to just not be built. There are hierarchy trees online that you can look up if you don't know what units can be built by what sides.</p>
             <p>We're almost done! One last section to go before we add the finishing touches.</p>
+            <h3 id="dialogue">Mission Dialogue</h3>
+            <p>Now we want to add a little more personality to our map, and the best way of doing that is adding some dialogue to tell the player what to do, when reinforcements arrive, and so on. This is where we get into the Media library at long last.</p>
+            <p>Let's jump back to the start of the script and a line just below the <b>AddPrimaryObjective</b> line. Here we'll tell the player what they need to do:</p>
+            <img src="./images/dialogueobjective.png" width="600" />
+            <p>We should also add some to let the playuer know that reinforcements have arrived:</p>
+            <img src="./images/dialoguereinforce.png" width="600" />
+            <p>And finally, we should add some to the <b>Tick</b> function to tell the playuer when they've completed (or failed) the objective:</p>
+            <img src="./images/dialoguetick.png" width="600" />
+            <p>That was easy! Now when you load up and test your map, you should get dialogue for when the player wins, loses, when the reinforcements arrive, and at the start of the mission. Dialogue isn't strictly necessary, but great to expand the story of a campaign, provide tips for the player, lay out map objectives, among other things. If you want to make a good map, get used to using <b>Media.DisplayMessage</b> a lot.</p>
             
         </div>
     </div>
