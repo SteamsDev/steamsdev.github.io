@@ -132,10 +132,24 @@
             <img src="./images/reinforceoneactual.png" width="650" />
             <p>Then do the same for the second trigger:</p>
             <img src="./images/reinforcetwoactual.png" width="650" />
-            <p><i>Now</i> we're finsihed. Go ahead and add the function into <code>WorldLoaded</code> so that it loads up when the map does:</p>
-            <img src="./images/addbluefunction.png" width="600" />\
+            <p><i>Now</i> we're finished. Go ahead and add the function into <code>WorldLoaded</code> so that it loads up when the map does:</p>
+            <img src="./images/addbluefunction.png" width="600" />
             <p>Save your changes here and then go back and test the map out. With any luck the tas forces you just implemented shopuld spawn as soon as you enter the villages from the player side of the map. If they don't (or if they spawn too soon) adjust the WDist number in the proximity trigger, or if the function doesn't work, go back and check the script for errors. After that, we're good to move on to the next part of this tutorial.</p>
+            <h3 id="enemies">Creating Enemy Taskforces</h3>
+            <p>Now for the less fun part: making the enemy produce its own units. As long as a bot has a factory available that can produce the necessary units and the necessary cash, it will produce the units from the factory and give  them whatever orders we tell them to in the script (at least in our case, where we're using single-queue production). This is our first time dabbling with production queues, so let's take this one step at a time.</p>
+            <p>First, let's figure out what we want our bot to produce. We'll want both an infantry taskforce and a vehicle taskforce, so the bot can produce from both the barracks and war factory. Let's look at our options in the map editor:</p>
+            <img src="./images/sovinfone.png" width="300" />
+            <img src="./images/sovinftwo.png" width="300" />
+            <p>These are what we're looking for. We have standard rifle infantry (denoted as the type <code>e1</code>) and rocket soldiers (as type <code>e3</code>). We could also do grenadiers (which is <code>e2</code>) but for now we'll stick with those two.</p>
+            <img src="./images/sovvehone.png" width="300" />
+            <img src="./images/sovvehtwo.png" width="300" />
+            <p>And these are our vehicles. The Soviets get different tanks from the allies, with the Heavy Tank being denoted as <code>2tnk</code> and the Mobile Flak Cannon as <code>ftnk</code>. THese will be for our vehicle taskforce while the two soldiers will go in our infantry taskforce.</p>
+            <p>Let's go to our <code>MakeRedUnits</code> function and create those taskforces:</p>
+            <img src="./images/redtaskforces.png" width="600" />
+            <p>Now we need to get our red player to make those taskforces. A few advanced programming techniques are rquired for this part, so let's go through it together. Step one is to make sure the player still has the right factory. Let's go back to the map editor and see what the names of those factories are:</p>
+            
 
+            
         </div>
     </div>
 
