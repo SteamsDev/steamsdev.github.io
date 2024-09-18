@@ -54,7 +54,6 @@
                 <li><a href="#enemies">Creating Enemy Taskforces</a></li>
                 <li><a href="#dialogue">Mission Dialogue</a></li>
                 <li><a href="#finish">Finishing Touches</a></li>
-                <li><a href="#test">Testing/Debugging</a></li>
                 <li><a href="#packitup">Packing It Up</a></li>
             </ul>
             <br />
@@ -171,7 +170,24 @@
             <p>That was easy! Now when you load up and test your map, you should get dialogue for when the player wins, loses, when the reinforcements arrive, and at the start of the mission. Dialogue isn't strictly necessary, but great to expand the story of a campaign, provide tips for the player, lay out map objectives, among other things. If you want to make a good map, get used to using <b>Media.DisplayMessage</b> a lot.</p>
             <h3 id="finish">Finishing Touches</h3>
             <p>Alright, we're on the last stretch! Let's do a little bit of code cleanup and general maintenance before we're done. This will usually help in the long term when we publish our map.</p>
-            
+            <p>First, remember that function we made for the red taskforces so that they could do stuff on their own? Doesn't it annoy you that they're just the same function copy-pasted from one another? Well, there's a way to address that. We'll make a single function just after WorldLoaded that takes in an array of units and assigns the Hunt command to each unit. It should look like this:</p>
+            <img src="./images/unithunt.png" width="400" />
+            <p>Now we can take all that messy code and replace it with the function we just created. Remember to not include the usual parentheses as it can mess up out map pretty quick (I've been burned by that more than once...)</p>
+            <img src="./images/consolidate.png" width="400" />
+            <p>Ah, much better! This <b>UnitHunt</b> function is universally useful for thing like shellmaps (like the one for RA), singleplayer mission maps, and other things. Feel free to copy it and use it with every map you make.</p>
+            <p>One other thing we can do is add comments. In Lua, this is done with a couple dashes (<code>--</code>) or you can do a multi-line comment with some brackets aded to it Z(<code>--[[ {add stuff here} ]]--</code>). Let's do that and add our name and the name of the map to the top of the file:</p>
+            <img src="./images/comments.png" width="400" />
+            <p>You can also add your own comments describing what your code does, like for a specific function, but we're not going to go into that here.</p>
+            <h3 id="packitup">Packing It Up</h3>
+            <p>Congratulations! You've just finished your very first OpenRA Lua script! Now it's time to get it out into the world. There are a lot of ways to do this, but we're going to go into repacking the completed script along with the other files into a Zip file to make it easy to move around.</p>
+            <p>You'll first want to make sure that the original archive is deleted or that you rename the folder you were working in as that's the one we'll be packing up. Then as long as you have an application for creating Zip files, you can right-click on the folder you were working in and click "Create Archive" which should lead you to this screen:</p>
+            <img src="./images/zipup.png" width="400" />
+            <p>If you have 7-Zip, you can add it to an archive with some more advanced features built-in (though I tend to not mess with them):</p>
+            <img src="./images/7zip.png" width="400" />
+            <p>Your map is ready to be shared! Once you've got it packed up, you can districute it in a number of different ways. My personal favorites are to send it through <a href="https://discord.com/">Discord</a> or <a href="https://github.com/">Github</a>, but OpenRA also has a dedicated map-sharing site called the <a href="https://resource.openra.net/">OpenRA Resource Center</a>, which allows you to filter maps for a specific game (like RA, TD, and D2K). Each of these require an account for you to use, but all of them are great options.</p>
+            <img src="./images/resourceeenter.png" width="800" />
+            <p>You can also use a USB drive or even a CD if you want something physical. The small file size makes it easy to share pretty much everywhere.</p>
+            <p>At this point, the tutorial is pretty much done. However, I am going to go into more detail into specific OpenRA scripting techniques (such as more advanced AI, scripted events, useful features, etc), so if you want to get better at mission-making feel free to continue on to the last section and see what makes scripting in OpenRA that much morte special compared to the games they were based on. And of course, happy scripting!</p>
         </div>
     </div>
 
