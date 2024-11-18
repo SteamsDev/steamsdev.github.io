@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenRA Lua Tutorial - Devon Fair's e-Portfolio</title>
     <link rel="stylesheet" href="../../root/styles.css" />
 </head>
+
 <body>
     <div id="container">
         <div id="header">
@@ -37,29 +39,43 @@
                     <ul class="subprojects">
                         <li><a href="./luaintro.html">Introduction to Lua</a></li>
                         <li><a href="./ataglance.html">OpenRA's API At A Glance</a></li>
-                        <li><a href="./mapscript.html">Making a Lua Script</a></li>
+                        <li><a href="./mapscript.html">Making an OpenRA Script</a></li>
                         <li><a href="./advanced.html">Advanced Tips and Tricks</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
         <div id="content">
-            <h2>OpenRA Lua Tutorial</h2>
-            <p>If you ever wondered how to get started with making custom campaigns/scripted maps in OpenRA and want a starting point, this tutorial aims to show you the basics and get you started on the path to making great custom maps like mine! Many of the tips featured here come from experience, but there are plenty of sources referenced here that you'll also want to check out after this turorial to get a full understanding of making maps in OpenRA.</p>
-            <br />
-            <p>References used in this tutorial:</p>
-            <ul>
-                <li><a href="https://docs.openra.net/en/playtest/lua/">OpenRA Lua Documentation</a></li>
-                <li><a href="https://docs.openra.net/en/release/traits/">OpenRA Traits Documentation</a></li>
-                <li><a href="https://www.tutorialspoint.com/lua/index.htm">TutorialsPoint's Lua Tutorial</a></li>
-            </ul>
-            <p>Use the sidebar to navigate through the tutorial and each topic that is covered.</p>
+            <h2>Advanced Tips and Tricks</h2>
+            <p>This section is for some of the advanced tips and tricks for making better OpenRA scripts. While note required to make a great map, they can make the quality of the mpa a lot better and help with some things that wouldn't be possibe to do otherwise, and some of these are just fun to mess around with and improve upon to make even better maps. As always, to see more and better applications of these tricks, take a look at some of the pre-packaged singleplayer maps that OpenRA comes with as standard.</p>
         </div>
     </div>
+
     <!-- Footer -->
     <footer>
         <a href="https://github.com/SteamsDev">Github</a>
         <a href="https://www.linkedin.com/in/devon-fair-84442224a">LinkedIn</a>
     </footer>
+
+    <!-- To Top Button -->
+    <button id="toTopBtn">Top</button>
+
+    <script>
+    // JavaScript to handle the scroll to top functionality
+    const toTopBtn = document.getElementById('toTopBtn');
+
+    toTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Optional: Show the button only when the user scrolls down
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 100) {
+            toTopBtn.style.display = 'block';
+        } else {
+            toTopBtn.style.display = 'none';
+        }
+    });
+    </script>
 </body>
 </html>
